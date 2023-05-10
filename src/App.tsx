@@ -6,21 +6,17 @@ import "./App.css";
 const router = createBrowserRouter([
   {
     path: "/",
-    // element: <components.Dashboard />,
+    element: <components.Dashboard />,
     children: [
       {
         path: "/",
         element: <pages.Home />,
       },
-      {
-        path: "/workspace",
-        element: <pages.Workspace />,
-      },
     ],
   },
   {
-    path: "/Explorer",
-    element: <pages.Explorer />,
+    path: "/workspace",
+    element: <pages.Workspace />,
   },
 ]);
 
