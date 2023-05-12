@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import {
   VscArrowLeft,
   VscSave,
@@ -5,6 +7,8 @@ import {
   VscHistory,
   VscFolderOpened,
 } from "react-icons/vsc";
+
+import { ListGroup } from "flowbite-react";
 
 // open, save, save as, history button
 const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
@@ -18,7 +22,7 @@ const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
     return (
       <button
         id={props.id}
-        className="flex w-9/12 flex-row items-center justify-start space-x-2 rounded-2xl px-3 py-1 hover:bg-sky-700"
+        className="flex w-9/12 flex-row items-center justify-start space-x-2 rounded-2xl px-3 py-1 hover:bg-sky-400"
         onClick={clickButton}
       >
         {props.icons}
@@ -64,7 +68,7 @@ const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
 
 const ProjectSection: React.FC<{}> = () => {
   return (
-    <div className="w-3/12 bg-red-400 py-3  pl-3">
+    <div className="w-3/12 bg-red-400 py-3 pl-3">
       <p>Project</p>
     </div>
   );
@@ -75,6 +79,15 @@ const FilesSection: React.FC<{ title: string }> = (props) => {
   return (
     <div className="w-3/12 bg-blue-400 py-3 pl-3">
       <p>{props.title}</p>
+      <div className="w-10/12">
+        <ListGroup>
+          <ListGroup.Item active={true} icon={VscSave}>
+            File0
+          </ListGroup.Item>
+          <ListGroup.Item icon={VscSave}>File-1</ListGroup.Item>
+          <ListGroup.Item icon={VscSave}>File-2</ListGroup.Item>
+        </ListGroup>
+      </div>
     </div>
   );
 };
@@ -90,7 +103,7 @@ const PermissionSection: React.FC<{}> = (props) => {
 // Main
 const Workspace: React.FC<{}> = (props) => {
   return (
-    <div className="absolute flex h-full w-full divide-x divide-gray-700 text-2xl">
+    <div className="absolute flex h-full w-full divide-x divide-gray-700 text-xl">
       <FunctionsSection title="Home" isFile={true} />
 
       <ProjectSection />
