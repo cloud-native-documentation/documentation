@@ -1,9 +1,13 @@
 function Home() {
+  const handleClick = () => {
+    console.log("Home button clicked!");
+  };
+
   return (
-    <div className="bg-blue-500 p-4 rounded-lg">
-      <span className="text-white">Home</span>
-    </div>
-  )
+    <button className="bg-blue-500 hover:bg-blue-600 p-3 rounded-lg" onClick={handleClick}>
+      <span className="text-white">Login</span>
+    </button>
+  );
 }
 
-export default Home
+export default Home;
