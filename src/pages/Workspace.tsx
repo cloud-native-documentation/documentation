@@ -1,66 +1,53 @@
 import React, { useState } from "react";
 
-import {
-  VscArrowLeft,
-  VscSave,
-  VscSaveAs,
-  VscHistory,
-  VscFolderOpened,
-} from "react-icons/vsc";
+import { VscSave, VscSaveAs, VscHistory } from "react-icons/vsc";
 
-import { ListGroup } from "flowbite-react";
+import { ListGroup, Sidebar } from "flowbite-react";
+import { HiHome, HiFolderOpen } from "react-icons/hi";
 
-// open, save, save as, history button
-const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
+const SidebarSection: React.FC<{ title: string; isFile: boolean }> = (
   props
 ) => {
   const clickButton = (e: { currentTarget: { id: any } }) => {
     console.log(e.currentTarget.id, "click");
   };
 
-  const MyButton: React.FC<{ id: string; icons: any }> = (props) => {
+  const MySideItem: React.FC<{ title: string; icon: any }> = (props) => {
     return (
-      <button
-        id={props.id}
-        className="flex w-9/12 flex-row items-center justify-start space-x-2 rounded-2xl px-3 py-1 hover:bg-sky-400"
+      <Sidebar.Item
+        href="#"
+        id={props.title}
+        icon={props.icon}
         onClick={clickButton}
       >
-        {props.icons}
-        <p>{props.id}</p>
-      </button>
-    );
-  };
-
-  const FileOptions: React.FC<{ isFile: boolean }> = (props) => {
-    if (props.isFile)
-      return (
-        <div className="flex w-full flex-col items-center justify-center space-y-4 py-1 text-lg">
-          <MyButton id="Save" icons={<VscSave className="scale-125" />} />
-          <MyButton id="Save as" icons={<VscSaveAs className="scale-125" />} />
-          <MyButton id="History" icons={<VscHistory className="scale-125" />} />
-          <MyButton
-            id="Open"
-            icons={<VscFolderOpened className="scale-125" />}
-          />
-        </div>
-      );
-    return (
-      <div className="flex w-full flex-col items-center justify-center space-y-4 py-1 text-lg">
-        <MyButton id="Open" icons={<VscFolderOpened className="scale-125" />} />
-      </div>
+        {props.title}
+      </Sidebar.Item>
     );
   };
 
   return (
-    <div className="w-2/12 bg-gray-200">
-      <div className="flex w-full flex-row items-center space-x-2 py-3">
-        <button id="gohome" onClick={clickButton}>
-          <VscArrowLeft className="scale-110" />
-        </button>
-        <p>{props.title}</p>
-      </div>
-      <div className="flex flex-col items-center justify-center">
-        <FileOptions isFile={props.isFile} />
+    <div className="flex w-2/12 flex-col items-center">
+      <div className="h-full w-full bg-gray-300">
+        <Sidebar aria-label="Sidebar" className="w-full">
+          <Sidebar.Items>
+            <Sidebar.Logo href="/" img="vite.svg" imgAlt="TSMC">
+              TSMC
+            </Sidebar.Logo>
+
+            <Sidebar.ItemGroup>
+              <MySideItem title="Home" icon={HiHome} />
+            </Sidebar.ItemGroup>
+
+            <Sidebar.ItemGroup>
+              <MySideItem title="Open" icon={HiFolderOpen} />
+            </Sidebar.ItemGroup>
+            <Sidebar.ItemGroup>
+              <MySideItem title="Save" icon={VscSave} />
+              <MySideItem title="Save As" icon={VscSaveAs} />
+              <MySideItem title="History" icon={VscHistory} />
+            </Sidebar.ItemGroup>
+          </Sidebar.Items>
+        </Sidebar>
       </div>
     </div>
   );
@@ -76,25 +63,34 @@ const ProjectSection: React.FC<{}> = () => {
 
 // File structure Brower
 const FilesSection: React.FC<{ title: string }> = (props) => {
-  return (
-    <div className="w-3/12 bg-blue-400 py-3 pl-3">
-      <p>{props.title}</p>
-      <div className="w-10/12">
-        <ListGroup>
-          <ListGroup.Item active={true} icon={VscSave}>
-            File0
-          </ListGroup.Item>
-          <ListGroup.Item icon={VscSave}>File-1</ListGroup.Item>
-          <ListGroup.Item icon={VscSave}>File-2</ListGroup.Item>
-        </ListGroup>
+  const FilePanel: React.FC<{ title: string }> = (props) => {
+    return (
+      <div className="flex w-full flex-col items-center bg-blue-400 py-3">
+        <p>{props.title}</p>
+        <div className="w-11/12 py-3">
+          <ListGroup>
+            <ListGroup.Item active={true} icon={VscSave}>
+              File-0
+            </ListGroup.Item>
+            <ListGroup.Item icon={VscSave}>File-1</ListGroup.Item>
+            <ListGroup.Item icon={VscSave}>File-2</ListGroup.Item>
+          </ListGroup>
+        </div>
       </div>
+    );
+  };
+
+  return (
+    <div className="m-0 flex h-full w-6/12 space-x-0 divide-x divide-gray-700 p-0">
+      <FilePanel title="One" />
+      <FilePanel title="Two" />
     </div>
   );
 };
 
 const PermissionSection: React.FC<{}> = (props) => {
   return (
-    <div className="flex-auto bg-orange-400 py-3 pl-3">
+    <div className="w-max flex-auto bg-orange-400 py-3 pl-3">
       <p>Permission Section</p>
     </div>
   );
@@ -104,12 +100,13 @@ const PermissionSection: React.FC<{}> = (props) => {
 const Workspace: React.FC<{}> = (props) => {
   return (
     <div className="absolute flex h-full w-full divide-x divide-gray-700 text-xl">
-      <FunctionsSection title="Home" isFile={true} />
+      {/* <FunctionsSection title="Home" isFile={true} /> */}
+      <SidebarSection title="Home" isFile={true} />
 
       <ProjectSection />
 
       <FilesSection title="File one" />
-      <FilesSection title="File two" />
+      {/* <FilesSection title="File two" /> */}
 
       <PermissionSection />
     </div>
