@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { VscSave, VscSaveAs, VscHistory } from "react-icons/vsc";
 
-import { ListGroup, Sidebar } from "flowbite-react";
-import { HiHome, HiFolderOpen } from "react-icons/hi";
+import { ListGroup, Sidebar, Card, Button } from "flowbite-react";
+import { HiHome, HiFolderOpen, HiOutlineArrowRight } from "react-icons/hi";
 
 const SidebarSection: React.FC<{ title: string; isFile: boolean }> = (
   props
@@ -54,9 +54,34 @@ const SidebarSection: React.FC<{ title: string; isFile: boolean }> = (
 };
 
 const ProjectSection: React.FC<{}> = () => {
+  const clickProject = (e: { currentTarget: { id: any } }) => {
+    console.log(e.currentTarget.id, "click project");
+  };
+
+  const ProjectCard: React.FC<{ title: string; text: string }> = (props) => {
+    return (
+      <Card className="w-11/12">
+        <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          {props.title}
+        </h5>
+        <p className="font-normal text-gray-700 dark:text-gray-400">
+          {props.text}
+        </p>
+        <Button onClick={clickProject} id={props.title}>
+          Select
+          <HiOutlineArrowRight className="h-4 w-4" />
+        </Button>
+      </Card>
+    );
+  };
+
   return (
-    <div className="w-3/12 bg-red-400 py-3 pl-3">
+    <div className="flex w-3/12 flex-col items-center bg-red-400 py-3">
       <p>Project</p>
+      <div className="flex flex-col items-center space-y-2 py-3">
+        <ProjectCard title="Project 1" text="The describe message" />
+        <ProjectCard title="Project 2" text="The describe message fro 2" />
+      </div>
     </div>
   );
 };
