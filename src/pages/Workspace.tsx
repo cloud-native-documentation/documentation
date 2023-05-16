@@ -1,9 +1,11 @@
+import classnames from "classnames";
+
 import React, { useState } from "react";
 
 import { VscSave, VscSaveAs, VscHistory } from "react-icons/vsc";
 
 import { ListGroup, Sidebar, Card, Button } from "flowbite-react";
-import { HiHome, HiFolderOpen, HiOutlineArrowRight } from "react-icons/hi";
+import { HiHome, HiFolderOpen, HiDocumentAdd } from "react-icons/hi";
 
 const SidebarSection: React.FC<{ title: string; isFile: boolean }> = (
   props
@@ -26,8 +28,8 @@ const SidebarSection: React.FC<{ title: string; isFile: boolean }> = (
   };
 
   return (
-    <div className="flex w-2/12 flex-col items-center">
-      <div className="h-full w-full bg-gray-300">
+    <div className="w-38 flex flex-col items-center">
+      <div className="h-full w-full">
         <Sidebar aria-label="Sidebar" className="w-full">
           <Sidebar.Items>
             <Sidebar.Logo href="/" img="vite.svg" imgAlt="TSMC">
@@ -54,33 +56,58 @@ const SidebarSection: React.FC<{ title: string; isFile: boolean }> = (
 };
 
 const ProjectSection: React.FC<{}> = () => {
-  const clickProject = (e: { currentTarget: { id: any } }) => {
-    console.log(e.currentTarget.id, "click project");
-  };
-
-  const ProjectCard: React.FC<{ title: string; text: string }> = (props) => {
+  const ProjectCard: React.FC<{
+    title: string;
+    text: string;
+    selectedProject: string;
+    setSelect: any;
+  }> = (props) => {
     return (
-      <Card className="w-11/12">
-        <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {props.title}
-        </h5>
-        <p className="font-normal text-gray-700 dark:text-gray-400">
-          {props.text}
-        </p>
-        <Button onClick={clickProject} id={props.title}>
-          Select
-          <HiOutlineArrowRight className="h-4 w-4" />
-        </Button>
-      </Card>
+      <ListGroup.Item
+        active={props.selectedProject == props.title}
+        className="flex items-center justify-center"
+        onClick={() => {
+          props.setSelect(props.title);
+        }}
+      >
+        <Card className="w-full bg-transparent">
+          <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+            {props.title}
+          </h5>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            {props.text}
+          </p>
+        </Card>
+      </ListGroup.Item>
     );
   };
 
+  const [selectedProject, setSelectedProject] = useState<string>("Project 1");
+
   return (
-    <div className="flex w-3/12 flex-col items-center bg-red-400 py-3">
+    <div className="flex w-3/12 flex-col items-center bg-slate-400 py-3">
       <p>Project</p>
-      <div className="flex flex-col items-center space-y-2 py-3">
-        <ProjectCard title="Project 1" text="The describe message" />
-        <ProjectCard title="Project 2" text="The describe message fro 2" />
+      <div className="flex w-11/12 flex-col items-center space-y-2 py-3">
+        <ListGroup className="dark:bg-blue-500">
+          <ProjectCard
+            title="Project 1"
+            text="The describe message"
+            selectedProject={selectedProject}
+            setSelect={setSelectedProject}
+          />
+          <ProjectCard
+            title="Project 2"
+            text="The describe message for 2"
+            selectedProject={selectedProject}
+            setSelect={setSelectedProject}
+          />
+          <ProjectCard
+            title="Project 3"
+            text="The 3 project describe msg"
+            selectedProject={selectedProject}
+            setSelect={setSelectedProject}
+          />
+        </ListGroup>
       </div>
     </div>
   );
@@ -90,10 +117,10 @@ const ProjectSection: React.FC<{}> = () => {
 const FilesSection: React.FC<{ title: string }> = (props) => {
   const FilePanel: React.FC<{ title: string }> = (props) => {
     return (
-      <div className="flex w-full flex-col items-center bg-blue-400 py-3">
+      <div className="flex w-full flex-col items-center bg-gray-300 py-3">
         <p>{props.title}</p>
         <div className="w-11/12 py-3">
-          <ListGroup>
+          <ListGroup className="dark:bg-blue-500">
             <ListGroup.Item active={true} icon={VscSave}>
               File-0
             </ListGroup.Item>
@@ -106,7 +133,7 @@ const FilesSection: React.FC<{ title: string }> = (props) => {
   };
 
   return (
-    <div className="m-0 flex h-full w-6/12 space-x-0 divide-x divide-gray-700 p-0">
+    <div className="m-0 flex h-full w-5/12 space-x-0 divide-x divide-gray-700 p-0">
       <FilePanel title="One" />
       <FilePanel title="Two" />
     </div>
@@ -125,14 +152,9 @@ const PermissionSection: React.FC<{}> = (props) => {
 const Workspace: React.FC<{}> = (props) => {
   return (
     <div className="absolute flex h-full w-full divide-x divide-gray-700 text-xl">
-      {/* <FunctionsSection title="Home" isFile={true} /> */}
       <SidebarSection title="Home" isFile={true} />
-
       <ProjectSection />
-
       <FilesSection title="File one" />
-      {/* <FilesSection title="File two" /> */}
-
       <PermissionSection />
     </div>
   );
