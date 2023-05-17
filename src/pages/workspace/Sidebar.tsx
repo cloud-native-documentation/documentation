@@ -6,9 +6,7 @@ import {
   VscFolderOpened,
 } from "react-icons/vsc";
 
-const Sidebar: React.FC<{ title: string; isFile: boolean }> = (
-  props
-) => {
+const Sidebar: React.FC<{ title: string; isFile: boolean }> = (props) => {
   const clickButton = (e: { currentTarget: { id: string } }) => {
     console.log(e.currentTarget.id, "click");
   };

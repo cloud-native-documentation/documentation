@@ -1,5 +1,5 @@
 function Explorer() {
-  return <>Explorer</>
+  return <>Explorer</>;
 }
 
-export default Explorer
+export default Explorer;

@@ -1,10 +1,7 @@
 export default {
   plugins: {
     tailwindcss: {
-      content: [
-        './src/**/*.{js,jsx,ts,tsx}',
-        './public/index.html'
-      ],
+      content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
       theme: {
         extend: {},
       },
@@ -12,4 +9,4 @@ export default {
     },
     autoprefixer: {},
   },
-}
+};

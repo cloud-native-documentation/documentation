@@ -1,7 +1,7 @@
-import Sidebar from './Sidebar';
-import Projects from './Projects';
-import Files from './Files';
-import Actions from './Actions';
+import Sidebar from "./Sidebar";
+import Projects from "./Projects";
+import Files from "./Files";
+import Actions from "./Actions";
 
 const Workspace: React.FC = () => {
   return (
