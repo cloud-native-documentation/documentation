@@ -6,8 +6,7 @@ import {
   VscFolderOpened,
 } from "react-icons/vsc";
 
-// open, save, save as, history button
-const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
+const Sidebar: React.FC<{ title: string; isFile: boolean }> = (
   props
 ) => {
   const clickButton = (e: { currentTarget: { id: string } }) => {
@@ -62,45 +61,4 @@ const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
   );
 };
 
-const ProjectSection: React.FC = () => {
-  return (
-    <div className="w-3/12 bg-red-400 py-3  pl-3">
-      <p>Project</p>
-    </div>
-  );
-};
-
-// File structure Brower
-const FilesSection: React.FC<{ title: string }> = (props) => {
-  return (
-    <div className="w-3/12 bg-blue-400 py-3 pl-3">
-      <p>{props.title}</p>
-    </div>
-  );
-};
-
-const PermissionSection: React.FC = () => {
-  return (
-    <div className="flex-auto bg-orange-400 py-3 pl-3">
-      <p>Permission Section</p>
-    </div>
-  );
-};
-
-// Main
-const Workspace: React.FC = () => {
-  return (
-    <div className="absolute flex h-full w-full divide-x divide-gray-700 text-2xl">
-      <FunctionsSection title="Home" isFile={true} />
-
-      <ProjectSection />
-
-      <FilesSection title="File one" />
-      <FilesSection title="File two" />
-
-      <PermissionSection />
-    </div>
-  );
-};
-
-export default Workspace;
+export default Sidebar;
