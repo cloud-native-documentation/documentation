@@ -4,7 +4,10 @@ function Home() {
   };
 
   return (
-    <button className="bg-blue-500 hover:bg-blue-600 p-3 rounded-lg" onClick={handleClick}>
+    <button
+      className="rounded-lg bg-blue-500 p-3 hover:bg-blue-600"
+      onClick={handleClick}
+    >
       <span className="text-white">Login</span>
     </button>
   );
