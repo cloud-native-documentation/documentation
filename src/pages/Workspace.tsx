@@ -10,11 +10,11 @@ import {
 const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
   props
 ) => {
-  const clickButton = (e: { currentTarget: { id: any } }) => {
+  const clickButton = (e: { currentTarget: { id: string } }) => {
     console.log(e.currentTarget.id, "click");
   };
 
-  const MyButton: React.FC<{ id: string; icons: any }> = (props) => {
+  const MyButton: React.FC<{ id: string; icons: JSX.Element }> = (props) => {
     return (
       <button
         id={props.id}
@@ -62,7 +62,7 @@ const FunctionsSection: React.FC<{ title: string; isFile: boolean }> = (
   );
 };
 
-const ProjectSection: React.FC<{}> = () => {
+const ProjectSection: React.FC = () => {
   return (
     <div className="w-3/12 bg-red-400 py-3  pl-3">
       <p>Project</p>
@@ -79,7 +79,7 @@ const FilesSection: React.FC<{ title: string }> = (props) => {
   );
 };
 
-const PermissionSection: React.FC<{}> = (props) => {
+const PermissionSection: React.FC = () => {
   return (
     <div className="flex-auto bg-orange-400 py-3 pl-3">
       <p>Permission Section</p>
@@ -88,7 +88,7 @@ const PermissionSection: React.FC<{}> = (props) => {
 };
 
 // Main
-const Workspace: React.FC<{}> = (props) => {
+const Workspace: React.FC = () => {
   return (
     <div className="absolute flex h-full w-full divide-x divide-gray-700 text-2xl">
       <FunctionsSection title="Home" isFile={true} />
