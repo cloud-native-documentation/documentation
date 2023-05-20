@@ -15,8 +15,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/workspace",
-    element: <pages.Workspace />,
+    path: "/explorer",
+    element: <pages.Explorer />,
   },
 ]);
 
