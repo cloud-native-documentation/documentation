@@ -1,11 +1,15 @@
 import { create } from "zustand";
-import { FileType, FileState } from "../../interfaces/workspace/file";
 
-const useFileStore = create<FileState>((set) => ({
-  file: {} as FileType,
-  selectFile: (file) =>
+interface FileStoreState {
+  filepath: string;
+  selectFile: (filepath: string) => void;
+}
+
+const useFileStore = create<FileStoreState>((set) => ({
+  filepath: "",
+  selectFile: (filepath) =>
     set(() => ({
-      file: file,
+      filepath: filepath,
     })),
 }));
 

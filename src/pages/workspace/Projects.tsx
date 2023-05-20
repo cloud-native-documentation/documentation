@@ -1,11 +1,27 @@
-const Projects: React.FC<{
-  addFileToTab: (file: string) => void;
-}> = ({ addFileToTab }) => {
-  const files: string[] = ["File1", "File2", "File3", "File4"];
+import React, { useState } from "react";
+
+import { useDocuments } from "../../api/document";
+
+import { useTabsStore } from "../../store/workspace";
+
+const Projects: React.FC = () => {
+  const { addTab } = useTabsStore();
+  const [loadDocuments] = useState(true);
+  const documents = useDocuments(loadDocuments);
+
+  if (documents.error) {
+    return <>Error fetching documents</>;
+  }
+  if (documents.isLoading) {
+    return <>Fetching documents...</>;
+  }
+
   return (
     <>
-      {files.map((file) => (
-        <button onClick={() => addFileToTab(file)}>{file}</button>
+      {documents.data?.map((document) => (
+        <button key={document} onClick={() => addTab(document)}>
+          {document}
+        </button>
       ))}
     </>
   );
