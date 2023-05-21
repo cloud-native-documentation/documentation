@@ -88,7 +88,7 @@ const AddModal: React.FC<{
             <Tabs.Item active={true} title="Folder" icon={HiFolder}>
               Folder
             </Tabs.Item>
-            <Tabs.Item title="Profile" icon={HiDocument}>
+            <Tabs.Item title="File" icon={HiDocument}>
               File
             </Tabs.Item>
           </Tabs.Group>

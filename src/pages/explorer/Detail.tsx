@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { ListGroup, Card, Button, Modal } from "flowbite-react";
+import { ListGroup, Card, Modal, Button } from "flowbite-react";
 
 import { HiUser } from "react-icons/hi";
 import { VscEdit } from "react-icons/vsc";
@@ -22,8 +22,12 @@ const PermissionModal: React.FC<{
         props.setShow(false);
       }}
     >
-      <Modal.Header>{props.person}</Modal.Header>
       <Modal.Body>
+        <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+          {props.person}
+        </h3>
+        <div className="py-3"></div>
+
         <div className="flex justify-center space-y-6">
           <div className="w-10/12">
             <ListGroup>
@@ -31,6 +35,7 @@ const PermissionModal: React.FC<{
                 active={props.role === "edit"}
                 onClick={() => {
                   props.setRole("edit");
+                  console.log("edit");
                 }}
               >
                 <div className="flex w-full justify-between">
@@ -42,6 +47,7 @@ const PermissionModal: React.FC<{
                 active={props.role === "view"}
                 onClick={() => {
                   props.setRole("view");
+                  console.log("view");
                 }}
               >
                 <div className="flex w-full justify-between">
@@ -51,6 +57,17 @@ const PermissionModal: React.FC<{
               </ListGroup.Item>
             </ListGroup>
           </div>
+        </div>
+        <div className="flex justify-center py-3">
+          <Button
+            color="gray"
+            onClick={(e) => {
+              e.stopPropagation();
+              props.setShow(false);
+            }}
+          >
+            Close
+          </Button>
         </div>
       </Modal.Body>
     </Modal>
@@ -72,7 +89,7 @@ const Detail: React.FC<{
           console.log("user click", props.name);
           setSelectName(props.name);
           setRole(props.role);
-          setEditModel(!editModal);
+          setEditModel(true);
         }}
       >
         <div className="flex w-full justify-between">

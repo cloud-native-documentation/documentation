@@ -1,2 +1,2 @@
 export { default as Home } from "./Home";
-export { default as Workspace } from "./workspace";
+export { default as Explorer } from "./explorer";

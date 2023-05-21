@@ -5,7 +5,7 @@ import Projects from "./Projects";
 import Files from "./Files";
 import Detail from "./Detail";
 
-const Workspace: React.FC = () => {
+const Explorer: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<string>("Project 1");
   const [projects, setProjects] = useState<
     { title: string; describe: string }[]
@@ -33,4 +33,4 @@ const Workspace: React.FC = () => {
   );
 };
 
-export default Workspace;
+export default Explorer;
