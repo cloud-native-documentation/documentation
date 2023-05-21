@@ -1,17 +1,17 @@
 // import axios from 'axios'
 import useSWR from "swr";
 import apiConfig from "../apiConfig";
-import { FileType } from "../../interfaces/workspace/file";
+import { DocumentRespType } from "../../model/api/document";
 
 // const fetcher = ([url, filepath]: [string, string]) =>
-//   axios.get(url).then((res) => res.data);
+//   axios.get(url).then((res) => res.data as DocumentRespType);
 
 const fetcher = ([url, filepath]: [string, string]) => {
   console.log(url);
   return filepath !== ""
-    ? ({ filename: filepath, content: filepath } as FileType)
+    ? ({ status: "success", content: filepath } as DocumentRespType)
     : null;
-}
+};
 const useDocument = (loadDocument: boolean, filepath: string) =>
   useSWR(
     loadDocument ? [apiConfig.url.document.view(), filepath] : null,

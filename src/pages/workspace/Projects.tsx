@@ -38,7 +38,7 @@ const Projects: React.FC = () => {
 
   return (
     <>
-      {documents.data?.map((document) => (
+      {documents.data?.documentlist?.map((document: string) => (
         <button key={document} onClick={() => addTab(document)}>
           {document}
         </button>
