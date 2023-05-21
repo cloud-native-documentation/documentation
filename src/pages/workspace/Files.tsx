@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { ListGroup, Button, Modal } from "flowbite-react";
+import {
+  ListGroup,
+  Button,
+  Modal,
+  TextInput,
+  Label,
+  Tabs,
+} from "flowbite-react";
 
 import {
   HiFolder,
@@ -23,9 +30,9 @@ const DeleteModeal: React.FC<{
         props.setShow(false);
       }}
     >
-      <Modal.Header />
       <Modal.Body>
         <div className="text-center">
+          <div className="py-3"></div>
           <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
           <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
             Are you sure you want to delete {props.selectFile}?
@@ -33,7 +40,8 @@ const DeleteModeal: React.FC<{
           <div className="flex justify-center gap-4">
             <Button
               color="failure"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 props.setShow(false);
                 alert("[TODO] Delete");
                 console.log("delete", props.selectFile);
@@ -43,11 +51,76 @@ const DeleteModeal: React.FC<{
             </Button>
             <Button
               color="gray"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 props.setShow(false);
               }}
             >
               No, cancel
+            </Button>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+const AddModal: React.FC<{
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+}> = (props) => {
+  return (
+    <Modal
+      show={props.show}
+      size="md"
+      popup={true}
+      onClose={() => {
+        props.setShow(false);
+      }}
+    >
+      <Modal.Body>
+        <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
+          <div className="py-3"></div>
+          <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+            Add Files or Directory
+          </h3>
+          <Tabs.Group aria-label="Tabs with icons" style="underline">
+            <Tabs.Item active={true} title="Folder" icon={HiFolder}>
+              Folder
+            </Tabs.Item>
+            <Tabs.Item title="Profile" icon={HiDocument}>
+              File
+            </Tabs.Item>
+          </Tabs.Group>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="filename" value="Name" />
+            </div>
+            <TextInput
+              id="filename"
+              placeholder="NewFile01.md"
+              required={true}
+            />
+          </div>
+
+          <div className="flex w-full justify-start gap-4">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                props.setShow(false);
+                alert("[TODO] Add");
+              }}
+            >
+              Create
+            </Button>
+            <Button
+              color="gray"
+              onClick={(e) => {
+                e.stopPropagation();
+                props.setShow(false);
+              }}
+            >
+              Cancel
             </Button>
           </div>
         </div>
@@ -64,6 +137,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
     files: string[];
   }> = (props) => {
     const [delShow, setDelshow] = useState<boolean>(false);
+    const [addShow, setAddshow] = useState<boolean>(false);
 
     return (
       <div className="flex w-full flex-col items-center py-3">
@@ -74,9 +148,11 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
               <Button
                 pill={true}
                 onClick={() => {
-                  alert("[TODO] Add");
+                  setAddshow(true);
+                  console.log("add");
                 }}
               >
+                <AddModal show={addShow} setShow={setAddshow} />
                 Add
                 <HiDocumentAdd className="ml-1 h-5 w-5" />
               </Button>
@@ -86,8 +162,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
                 pill={true}
                 color={"failure"}
                 onClick={() => {
-                  console.log("trigger");
-                  setDelshow(!delShow);
+                  setDelshow(true);
                 }}
               >
                 <DeleteModeal

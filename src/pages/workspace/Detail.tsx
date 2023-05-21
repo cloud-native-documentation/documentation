@@ -1,18 +1,78 @@
-import { ListGroup, Card } from "flowbite-react";
+import React, { useState } from "react";
+
+import { ListGroup, Card, Button, Modal } from "flowbite-react";
 
 import { HiUser } from "react-icons/hi";
 import { VscEdit } from "react-icons/vsc";
 import { BiShow } from "react-icons/bi";
+
+const PermissionModal: React.FC<{
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  person: string;
+  role: string;
+  setRole: React.Dispatch<React.SetStateAction<string>>;
+}> = (props) => {
+  return (
+    <Modal
+      show={props.show}
+      size="md"
+      dismissible={true}
+      onClose={() => {
+        props.setShow(false);
+      }}
+    >
+      <Modal.Header>{props.person}</Modal.Header>
+      <Modal.Body>
+        <div className="flex justify-center space-y-6">
+          <div className="w-10/12">
+            <ListGroup>
+              <ListGroup.Item
+                active={props.role === "edit"}
+                onClick={() => {
+                  props.setRole("edit");
+                }}
+              >
+                <div className="flex w-full justify-between">
+                  <p>Edit</p>
+                  <VscEdit className="h-5 w-5" />
+                </div>
+              </ListGroup.Item>
+              <ListGroup.Item
+                active={props.role === "view"}
+                onClick={() => {
+                  props.setRole("view");
+                }}
+              >
+                <div className="flex w-full justify-between">
+                  <p>View</p>
+                  <BiShow className="h-5 w-5" />
+                </div>
+              </ListGroup.Item>
+            </ListGroup>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
 
 const Detail: React.FC<{
   selectProject: string;
   setSelectProject: React.Dispatch<React.SetStateAction<string>>;
 }> = (props) => {
   const RoleItem: React.FC<{ name: string; role: string }> = (props) => {
+    const [editModal, setEditModel] = useState<boolean>(false);
+    const [selectName, setSelectName] = useState<string>("");
+    const [role, setRole] = useState<string>("edit");
+
     return (
       <ListGroup.Item
         onClick={() => {
           console.log("user click", props.name);
+          setSelectName(props.name);
+          setRole(props.role);
+          setEditModel(!editModal);
         }}
       >
         <div className="flex w-full justify-between">
@@ -21,6 +81,13 @@ const Detail: React.FC<{
           {props.role == "owner" && <HiUser className="h-5 w-5" />}
           {props.role == "view" && <BiShow className="h-5 w-5" />}
         </div>
+        <PermissionModal
+          show={editModal}
+          setShow={setEditModel}
+          person={selectName}
+          role={role}
+          setRole={setRole}
+        />
       </ListGroup.Item>
     );
   };
