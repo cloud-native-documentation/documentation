@@ -51,7 +51,7 @@ const Projects: React.FC<{
           <Button
             pill={true}
             color={"failure"}
-            onClick={() => alert("[TODO] Add")}
+            onClick={() => alert("[TODO] Delete")}
           >
             Delete
             <HiMinusCircle className="ml-1 h-5 w-5" />
