@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from "react-router-dom";
 
 function Dashboard() {
   return (
@@ -8,4 +8,4 @@ function Dashboard() {
     </div>
   );
 }
-export default Dashboard
+export default Dashboard;

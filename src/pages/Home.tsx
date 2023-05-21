@@ -1,9 +1,9 @@
 function Home() {
   return (
-    <div className="bg-blue-500 p-4 rounded-lg">
+    <div className="rounded-lg bg-blue-500 p-4">
       <span className="text-white">Home</span>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
