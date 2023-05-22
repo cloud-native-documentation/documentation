@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { VscMenu } from "react-icons/vsc";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { useIsHistoryStore } from "../store/workspace";
 
 const handleClick = () => {
   alert("To do");
 };
 
 function Dashboard() {
-  const [login, setLogin] = useState(true);
+  const [login] = useState(true);
+  const location = useLocation();
+  const { isHistory, setIsHistory } = useIsHistoryStore();
 
   return (
     <div>
@@ -69,6 +72,14 @@ function Dashboard() {
             <span className="text-white">Logout</span>
           </button>
         )}
+        {location.pathname === "/workspace" &&
+          (isHistory ? (
+            <button onClick={() => setIsHistory(false)}>[change to edit]</button>
+          ) : (
+            <button onClick={() => setIsHistory(true)}>
+              [change to history]
+            </button>
+          ))}
       </div>
       <Outlet />
     </div>
