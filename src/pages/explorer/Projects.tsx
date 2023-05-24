@@ -59,7 +59,7 @@ const DeleteModal: React.FC<{
           <div className="py-3"></div>
           <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
           <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            Are you sure you want to delete <b>{props.selectProject}</b>?
+            Are you sure you want to delete <b>{props.selectProject}</b>
           </h3>
           <div className="flex justify-center gap-4">
             <Button
@@ -183,7 +183,7 @@ const Projects: React.FC<{
   const [addShow, setAddshow] = useState<boolean>(false);
 
   return (
-    <div className="w-42 flex flex-col items-center py-3">
+    <div className="flex w-3/12 flex-col items-center py-3">
       <p>Project</p>
       <div className="flex flex-wrap items-center gap-2 py-3">
         <div>
