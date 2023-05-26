@@ -1,9 +1,9 @@
 export interface LoginRespType {
-    status: string;
-    id: number;
-    token: string;
+  status: string;
+  id: number;
+  token: string;
 }
 
 export interface LogoutRespType {
-    status: string;
+  status: string;
 }

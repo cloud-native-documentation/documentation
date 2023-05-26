@@ -8,17 +8,17 @@ interface AuthStoreState {
 }
 
 const useAuthStore = create<AuthStoreState>((set) => ({
-  jwt: localStorage.getItem('jwt') || null,
-  isLoggedIn: localStorage.getItem('jwt') !== null,
+  jwt: localStorage.getItem("jwt") || null,
+  isLoggedIn: localStorage.getItem("jwt") !== null,
   setJwt: (token) => {
-    localStorage.setItem('jwt', token);
-    set(() => ({ jwt: token }))
-    set(() => ({ isLoggedIn: true }))
+    localStorage.setItem("jwt", token);
+    set(() => ({ jwt: token }));
+    set(() => ({ isLoggedIn: true }));
   },
   clearJwt: () => {
-    localStorage.removeItem('jwt');
-    set(() => ({ jwt: null }))
-    set(() => ({ isLoggedIn: false }))
+    localStorage.removeItem("jwt");
+    set(() => ({ jwt: null }));
+    set(() => ({ isLoggedIn: false }));
   },
 }));
 

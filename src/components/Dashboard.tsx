@@ -1,39 +1,42 @@
-import { FormEvent } from 'react';
+import { FormEvent } from "react";
 import { VscMenu } from "react-icons/vsc";
 import { Outlet, useLocation } from "react-router-dom";
 import { useIsHistoryStore } from "../store/workspace";
 import { useAuthStore } from "../store/auth";
-import { useLogin, useLogout } from '../api/auth';
+import { useLogin, useLogout } from "../api/auth";
 
 function Dashboard() {
-  
   const location = useLocation();
   const { isHistory, setIsHistory } = useIsHistoryStore();
   const { isLoggedIn, jwt, setJwt, clearJwt } = useAuthStore();
   const HandleLogin = (e: FormEvent<HTMLFormElement>) => {
-    if(!e.currentTarget.checkValidity())
-      e.preventDefault();
+    if (!e.currentTarget.checkValidity()) e.preventDefault();
     e.preventDefault();
-    useLogin( e.currentTarget.account.value, e.currentTarget.password.value, setJwt )
-    .then((data) => {
-      console.log(data);
-      alert("Login success");
-    }).catch((err) => {
-      alert("Login failed");
-      console.log(err);
-    });
+    useLogin(
+      e.currentTarget.account.value,
+      e.currentTarget.password.value,
+      setJwt
+    )
+      .then((data) => {
+        console.log(data);
+        alert("Login success");
+      })
+      .catch((err) => {
+        alert("Login failed");
+        console.log(err);
+      });
   };
 
   const HandleLogout = () => {
     useLogout(jwt, clearJwt)
-    .then((data) => {
-      console.log(data);
-      alert("Logout success");
-    })
-    .catch((err) => {
-      alert("Logout failed");
-      console.log(err);
-    });
+      .then((data) => {
+        console.log(data);
+        alert("Logout success");
+      })
+      .catch((err) => {
+        alert("Logout failed");
+        console.log(err);
+      });
   };
 
   return (
@@ -99,7 +102,9 @@ function Dashboard() {
         )}
         {location.pathname === "/workspace" &&
           (isHistory ? (
-            <button onClick={() => setIsHistory(false)}>[change to edit]</button>
+            <button onClick={() => setIsHistory(false)}>
+              [change to edit]
+            </button>
           ) : (
             <button onClick={() => setIsHistory(true)}>
               [change to history]
