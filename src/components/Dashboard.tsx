@@ -1,16 +1,40 @@
-import { useState } from "react";
+import { FormEvent } from 'react';
 import { VscMenu } from "react-icons/vsc";
 import { Outlet, useLocation } from "react-router-dom";
 import { useIsHistoryStore } from "../store/workspace";
-
-const handleClick = () => {
-  alert("To do");
-};
+import { useAuthStore } from "../store/auth";
+import { useLogin, useLogout } from '../api/auth';
 
 function Dashboard() {
-  const [login] = useState(true);
+  
   const location = useLocation();
   const { isHistory, setIsHistory } = useIsHistoryStore();
+  const { isLoggedIn, jwt, setJwt, clearJwt } = useAuthStore();
+  const HandleLogin = (e: FormEvent<HTMLFormElement>) => {
+    if(!e.currentTarget.checkValidity())
+      e.preventDefault();
+    e.preventDefault();
+    useLogin( e.currentTarget.account.value, e.currentTarget.password.value, setJwt )
+    .then((data) => {
+      console.log(data);
+      alert("Login success");
+    }).catch((err) => {
+      alert("Login failed");
+      console.log(err);
+    });
+  };
+
+  const HandleLogout = () => {
+    useLogout(jwt, clearJwt)
+    .then((data) => {
+      console.log(data);
+      alert("Logout success");
+    })
+    .catch((err) => {
+      alert("Logout failed");
+      console.log(err);
+    });
+  };
 
   return (
     <div>
@@ -23,8 +47,8 @@ function Dashboard() {
             Documentation
           </h1>
         </div>
-        {login ? (
-          <form className="flex items-center">
+        {!isLoggedIn ? (
+          <form className="flex items-center" onSubmit={HandleLogin}>
             <div className="mb-3 mr-4">
               <label
                 htmlFor="account"
@@ -38,6 +62,7 @@ function Dashboard() {
                 id="account"
                 placeholder="username"
                 className="mt-1 w-full rounded border border-gray-300 py-2 pl-3 outline-none ring-indigo-600 focus:ring-indigo-600"
+                required
               />
             </div>
             <div className="mb-3 mr-4">
@@ -53,11 +78,11 @@ function Dashboard() {
                 id="password"
                 placeholder="password"
                 className="mt-1 w-full rounded border border-gray-300 py-2 pl-3 outline-none ring-indigo-600 focus:ring-indigo-600"
+                required
               />
             </div>
             <button
               className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
-              onClick={handleClick}
               style={{ height: "45px" }}
             >
               <span className="text-white">Login</span>
@@ -66,7 +91,7 @@ function Dashboard() {
         ) : (
           <button
             className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
-            onClick={handleClick}
+            onClick={HandleLogout}
             style={{ height: "45px" }}
           >
             <span className="text-white">Logout</span>
