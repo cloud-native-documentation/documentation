@@ -8,6 +8,10 @@ const apiConfig = {
       version: () => `${API_URL}/document/version`,
       historyActions: () => `${API_URL}/document/show_history`,
     },
+    auth: {
+      login: () => `${API_URL}/user/login`,
+      logout: () => `${API_URL}/user/logout`,
+    },
   },
 };
 

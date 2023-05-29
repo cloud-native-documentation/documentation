@@ -8,7 +8,7 @@ const exampleData: string[] = ["1.0", "2.0", "3.0", "4.0"];
 const fetcher = ([url]: [string]) => {
   console.log(url);
   return exampleData;
-}
+};
 const useVersions = (loadVersions: boolean) =>
   useSWR(loadVersions ? [apiConfig.url.document.version()] : null, fetcher);
 
