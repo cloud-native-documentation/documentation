@@ -21,7 +21,11 @@ const TextArea: React.FC = () => {
     return <>Not Selected</>;
   }
 
-  return <>TextArea: {document.data?.content}</>;
+  return (
+    <div className="h-full w-full bg-violet-100">
+      TextArea: {document.data?.content}
+    </div>
+  );
 };
 
 export default TextArea;

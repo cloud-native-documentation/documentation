@@ -10,9 +10,17 @@ const Workspace: React.FC = () => {
 
   return (
     <>
-      <Project projectID={projectID || ''}/>
-      <Tabs />
-      <TextArea />
+      <div className="absolute flex h-full w-full">
+        <div className="w-38 flex flex-col items-center bg-white text-xl">
+          <Project projectID={projectID || ""} />
+        </div>
+        <div className="items-centertext-xl flex w-full flex-col bg-violet-100">
+          <div className="h-full w-full">
+            <Tabs />
+            <TextArea />
+          </div>
+        </div>
+      </div>
     </>
   );
 };
