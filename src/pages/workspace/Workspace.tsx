@@ -1,13 +1,13 @@
 import React from "react";
 
-import Projects from "./Projects";
+import Project from "./Project";
 import Tabs from "./Tabs";
 import TextArea from "./TextArea";
 
 const Workspace: React.FC = () => {
   return (
     <>
-      <Projects />
+      <Project />
       <Tabs />
       <TextArea />
     </>
