@@ -1,13 +1,10 @@
 import { FormEvent } from "react";
 import { VscMenu } from "react-icons/vsc";
-import { Outlet, useLocation } from "react-router-dom";
-import { useIsHistoryStore } from "../store/workspace";
+import { Outlet } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import { useLogin, useLogout } from "../api/auth";
 
 function Dashboard() {
-  const location = useLocation();
-  const { isHistory, setIsHistory } = useIsHistoryStore();
   const { isLoggedIn, jwt, setJwt, clearJwt } = useAuthStore();
   const HandleLogin = (e: FormEvent<HTMLFormElement>) => {
     if (!e.currentTarget.checkValidity()) e.preventDefault();
@@ -100,16 +97,6 @@ function Dashboard() {
             <span className="text-white">Logout</span>
           </button>
         )}
-        {location.pathname === "/workspace" &&
-          (isHistory ? (
-            <button onClick={() => setIsHistory(false)}>
-              [change to edit]
-            </button>
-          ) : (
-            <button onClick={() => setIsHistory(true)}>
-              [change to history]
-            </button>
-          ))}
       </div>
       <Outlet />
     </div>

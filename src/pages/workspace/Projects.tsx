@@ -1,39 +1,19 @@
 import React from "react";
 
-import { useDocuments, useVersions } from "../../api/document";
+import { useDocuments } from "../../api/document";
 
-import {
-  useIsHistoryStore,
-  useTabsStore,
-  useVersionStore,
-} from "../../store/workspace";
+import { useTabsStore } from "../../store/workspace";
 
 const Projects: React.FC = () => {
-  const { isHistory } = useIsHistoryStore();
-
-  const documents = useDocuments(!isHistory);
-  const versions = useVersions(isHistory);
+  const documents = useDocuments(true);
 
   const { addTab } = useTabsStore();
-  const { setVersion } = useVersionStore();
 
   if (documents.error) {
     return <>Error fetching documents</>;
   }
   if (documents.isLoading) {
     return <>Fetching documents...</>;
-  }
-
-  if (isHistory) {
-    return (
-      <>
-        {versions.data?.map((version) => (
-          <button key={version} onClick={() => setVersion(version)}>
-            {version}
-          </button>
-        ))}
-      </>
-    );
   }
 
   return (
