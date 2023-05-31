@@ -12,6 +12,10 @@ const apiConfig = {
       login: () => `${API_URL}/user/login`,
       logout: () => `${API_URL}/user/logout`,
     },
+    project: {
+      list: () => `${API_URL}/document/list_project`,
+      listUsers: () => `${API_URL}/document/list_project_user`,
+    },
   },
 };
 
