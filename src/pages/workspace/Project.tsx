@@ -4,7 +4,7 @@ import { useDocuments } from "../../api/document";
 
 import { useTabsStore } from "../../store/workspace";
 
-const Projects: React.FC = () => {
+const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
   const documents = useDocuments(true);
 
   const { addTab } = useTabsStore();
@@ -18,6 +18,7 @@ const Projects: React.FC = () => {
 
   return (
     <>
+      <>{projectID}</>
       {documents.data?.documentlist?.map((document: string) => (
         <button key={document} onClick={() => addTab(document)}>
           {document}
