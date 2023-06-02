@@ -14,13 +14,15 @@ const Tabs: React.FC = () => {
       {tabs.map((tab) => (
         <Button.Group key={tab}>
           <Button
-            className="rounded-none bg-violet-100 text-black hover:bg-violet-50"
+            className="rounded-none bg-violet-100 hover:bg-violet-50"
             onClick={() => selectFile(tab)}
           >
-            {tab}
+            <div className="text-gray-900">
+              {tab}
+            </div>
           </Button>
           <Button
-            className="rounded-none bg-violet-100 text-black hover:bg-violet-50"
+            className="rounded-none bg-violet-100 hover:bg-violet-50"
             onClick={() => {
               removeTab(tab);
               if (filepath === tab) {
@@ -28,7 +30,9 @@ const Tabs: React.FC = () => {
               }
             }}
           >
-            <IoMdClose className="h-5 w-5" />
+            <div className="text-gray-900">
+              <IoMdClose className="h-5 w-5" />
+            </div>
           </Button>
         </Button.Group>
       ))}
