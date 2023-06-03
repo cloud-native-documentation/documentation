@@ -1,4 +1,4 @@
-import React from "react";
+import { FormEvent, useEffect } from "react";
 
 import { Button, Sidebar } from "flowbite-react";
 
@@ -14,6 +14,23 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
   const { addTab } = useTabsStore();
   const { projectFiles } = useProjectStore();
   const documents = useDocuments(projectID, "/", true);
+  const {
+    trigger: triggerCreateDocument,
+    error: errorCreateDocument,
+    isMutating: isMutatingCreateDocument,
+  } = useCreateDocument();
+
+  // useEffect(() => {
+  //   if (documents.error) {
+  //     alert(documents.error.message);
+  //   }
+  // }, [documents.error]);
+
+  useEffect(() => {
+    if (errorCreateDocument) {
+      alert(errorCreateDocument.message);
+    }
+  }, [errorCreateDocument]);
 
   if (documents.error) {
     return <>Error fetching documents</>;
@@ -23,8 +40,16 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
     return <>Fetching documents...</>;
   }
 
-  const HandleCreateDocument = () => {
-    useCreateDocument("file2", "/NYCU/", projectID, "0", "1");
+  const HandleCreateDocument = (e: FormEvent<HTMLFormElement>) => {
+    if (!e.currentTarget.checkValidity()) return e.preventDefault();
+    e.preventDefault();
+    triggerCreateDocument({
+      file: e.currentTarget.filename.value,
+      directory: "/NYCU/",
+      project: projectID,
+      isPublic: "0",
+      isPrivate: "1",
+    });
   };
 
   const HandleDeleteDocument = () => {
@@ -34,7 +59,27 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
   return (
     <div className="h-full w-full">
       <>{projectID}</>
-      <Button onClick={HandleCreateDocument}>add</Button>
+
+      <form className="flex items-center" onSubmit={HandleCreateDocument}>
+        <div className="mb-3 mr-4">
+          <input
+            type="text"
+            name="filename"
+            id="filename"
+            placeholder="filename"
+            className="mt-1 w-full rounded border border-gray-300 py-2 pl-3 outline-none ring-indigo-600 focus:ring-indigo-600"
+            required
+          />
+        </div>
+        <button
+          className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
+          style={{ height: "45px" }}
+          disabled={isMutatingCreateDocument}
+        >
+          <span className="text-white">Create</span>
+        </button>
+      </form>
+      {/* <Button onClick={HandleCreateDocument}>add</Button> */}
       <Button onClick={HandleDeleteDocument}>delete</Button>
       <Sidebar className="rounded-none">
         <Sidebar.Items>
