@@ -4,6 +4,8 @@ import apiConfig from "../apiConfig";
 
 import { DocumentsRespType } from "../../model/api/document";
 
+import { useProjectStore } from "../../store/workspace";
+
 const fetcher = ([url, project, directory]: [
   string,
   string,
@@ -16,7 +18,13 @@ const fetcher = ([url, project, directory]: [
     },
   };
 
-  return axios.get(url, config).then((res) => res.data as DocumentsRespType);
+  return axios
+    .get(url, config)
+    .then((res) => res.data as DocumentsRespType)
+    .then((data) => {
+      useProjectStore.getState().updateProjectFiles(data.documentlist);
+      return data;
+    });
 };
 
 const useDocuments = (

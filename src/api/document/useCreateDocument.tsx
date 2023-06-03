@@ -3,6 +3,8 @@ import apiConfig from "../apiConfig";
 
 import { CreateDocumentRespType } from "../../model/api/document";
 
+import { useProjectStore } from "../../store/workspace";
+
 const useCreateDocument = (
   file: string,
   directory: string,
@@ -23,6 +25,7 @@ const useCreateDocument = (
     .post(url, data)
     .then((res) => res.data as CreateDocumentRespType)
     .then((data) => {
+      useProjectStore.getState().createItem(file, directory, true);
       return data;
     });
 };

@@ -8,11 +8,12 @@ import {
   useDeleteDocument,
 } from "../../api/document";
 
-import { useTabsStore } from "../../store/workspace";
+import { useProjectStore, useTabsStore } from "../../store/workspace";
 
 const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
   const { addTab } = useTabsStore();
-  const documents = useDocuments(projectID, "/NYCU/", true);
+  const { projectFiles } = useProjectStore();
+  const documents = useDocuments(projectID, "/", true);
 
   if (documents.error) {
     return <>Error fetching documents</>;
@@ -23,15 +24,11 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
   }
 
   const HandleCreateDocument = () => {
-    useCreateDocument("file2", "/NYCU/", projectID, "0", "1").then(
-      (data) => console.log(data)
-    );
+    useCreateDocument("file2", "/NYCU/", projectID, "0", "1");
   };
 
   const HandleDeleteDocument = () => {
-    useDeleteDocument("file2", "/NYCU/", projectID).then((data) =>
-      console.log(data)
-    );
+    useDeleteDocument("file2", "/NYCU/", projectID);
   };
 
   return (
@@ -42,21 +39,25 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
       <Sidebar className="rounded-none">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            {documents.data?.documentlist?.map((document: string) => (
-              <Sidebar.Item
-                className="hover:bg-violet-200"
-                key={document}
-                onClick={() => addTab(document)}
-              >
-                {document}
-              </Sidebar.Item>
-            ))}
-            {/* <Sidebar.Collapse label="E-commerce">
-            <Sidebar.Item href="#">Products</Sidebar.Item>
-            <Sidebar.Item href="#">Sales</Sidebar.Item>
-            <Sidebar.Item href="#">Refunds</Sidebar.Item>
-            <Sidebar.Item href="#">Shipping</Sidebar.Item>
-          </Sidebar.Collapse> */}
+            {projectFiles.map((element) =>
+              element.isFile ? (
+                <Sidebar.Item
+                  className="hover:bg-violet-200"
+                  key={element.name}
+                  onClick={() => addTab(element.name)}
+                >
+                  {element.name}
+                </Sidebar.Item>
+              ) : (
+                <Sidebar.Collapse key={element.name} label={element.name}>
+                  {element.children?.map((e) => (
+                    <Sidebar.Item key={e.name} onClick={() => addTab(e.name)}>
+                      {e.name}
+                    </Sidebar.Item>
+                  ))}
+                </Sidebar.Collapse>
+              )
+            )}
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>

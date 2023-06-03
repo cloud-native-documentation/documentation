@@ -3,6 +3,8 @@ import apiConfig from "../apiConfig";
 
 import { DeleteDocumentRespType } from "../../model/api/document";
 
+import { useProjectStore } from "../../store/workspace";
+
 const useDeleteDocument = (
   file: string,
   directory: string,
@@ -19,6 +21,7 @@ const useDeleteDocument = (
     .post(url, data)
     .then((res) => res.data as DeleteDocumentRespType)
     .then((data) => {
+      useProjectStore.getState().deleteItem(file, directory);
       return data;
     });
 };
