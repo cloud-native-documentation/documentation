@@ -8,10 +8,10 @@ import {
   useDeleteDocument,
 } from "../../api/document";
 
-import { useProjectStore, useTabsStore } from "../../store/workspace";
+import { useProjectStore, useFileStore } from "../../store/workspace";
 
 const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
-  const { addTab } = useTabsStore();
+  const { selectFile } = useFileStore();
   const { projectFiles } = useProjectStore();
   const documents = useDocuments(projectID, "/", true);
   const {
@@ -89,14 +89,14 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
                 <Sidebar.Item
                   className="hover:bg-violet-200"
                   key={element.name}
-                  onClick={() => addTab(element.name)}
+                  onClick={() => selectFile(element.name)}
                 >
                   {element.name}
                 </Sidebar.Item>
               ) : (
                 <Sidebar.Collapse key={element.name} label={element.name}>
                   {element.children?.map((e) => (
-                    <Sidebar.Item key={e.name} onClick={() => addTab(e.name)}>
+                    <Sidebar.Item key={e.name} onClick={() => selectFile(e.name)}>
                       {e.name}
                     </Sidebar.Item>
                   ))}
