@@ -1,26 +1,44 @@
 import React from "react";
 
-import { Sidebar } from "flowbite-react";
+import { Button, Sidebar } from "flowbite-react";
 
-import { useDocuments } from "../../api/document";
+import {
+  useDocuments,
+  useCreateDocument,
+  useDeleteDocument,
+} from "../../api/document";
 
 import { useTabsStore } from "../../store/workspace";
 
 const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
-  const documents = useDocuments(true);
-
   const { addTab } = useTabsStore();
+  const documents = useDocuments(projectID, "/NYCU/", true);
 
   if (documents.error) {
     return <>Error fetching documents</>;
   }
+
   if (documents.isLoading) {
     return <>Fetching documents...</>;
   }
 
+  const HandleCreateDocument = () => {
+    useCreateDocument("file2", "/NYCU/", projectID, "0", "1").then(
+      (data) => console.log(data)
+    );
+  };
+
+  const HandleDeleteDocument = () => {
+    useDeleteDocument("file2", "/NYCU/", projectID).then((data) =>
+      console.log(data)
+    );
+  };
+
   return (
     <div className="h-full w-full">
       <>{projectID}</>
+      <Button onClick={HandleCreateDocument}>add</Button>
+      <Button onClick={HandleDeleteDocument}>delete</Button>
       <Sidebar className="rounded-none">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
