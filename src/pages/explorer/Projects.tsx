@@ -175,9 +175,9 @@ const Projects: React.FC<{
   selectProject: string;
   setSelectProject: React.Dispatch<React.SetStateAction<string>>;
   projects: { title: string; describe: string }[];
-  setProjects: React.Dispatch<
-    React.SetStateAction<{ title: string; describe: string }[]>
-  >;
+  // setProjects: React.Dispatch<
+  //   React.SetStateAction<{ title: string; describe: string }[]>
+  // >;
 }> = (props) => {
   const [delShow, setDelshow] = useState<boolean>(false);
   const [addShow, setAddshow] = useState<boolean>(false);
