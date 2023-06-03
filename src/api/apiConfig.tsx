@@ -8,6 +8,8 @@ const apiConfig = {
     document: {
       list: () => `/document/list`,
       view: () => `/document/view`,
+      create: () => `/document/create`,
+      delete: () => `/document/delete`,
       version: () => `/document/version`,
       historyActions: () => `/document/show_history`,
     },
