@@ -7,8 +7,11 @@ import Detail from "./Detail";
 
 import { useProjects } from "../../api/project";
 
+import { useSelectProjectStore } from "../../store/explorer";
+
 const Explorer: React.FC = () => {
-  const [selectedProject, setSelectedProject] = useState<string>(" ");
+  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+  // const [selectedProject, setSelectedProject] = useState<string>(" ");
 
   const projects = useProjects();
   const projectData: { title: string; describe: string }[] = [];
@@ -31,7 +34,7 @@ const Explorer: React.FC = () => {
       <Files selectProject={selectedProject} />
       <Detail
         selectProject={selectedProject}
-        setSelectProject={setSelectedProject}
+        // setSelectProject={setSelectedProject}
       />
     </div>
   );

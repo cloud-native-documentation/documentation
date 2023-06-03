@@ -173,7 +173,7 @@ const AddModal: React.FC<{
 
 const Projects: React.FC<{
   selectProject: string;
-  setSelectProject: React.Dispatch<React.SetStateAction<string>>;
+  setSelectProject: any;
   projects: { title: string; describe: string }[];
   // setProjects: React.Dispatch<
   //   React.SetStateAction<{ title: string; describe: string }[]>
