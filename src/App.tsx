@@ -13,7 +13,7 @@ const router = createBrowserRouter([
         element: <pages.Home />,
       },
       {
-        path: "/workspace/:projectID",
+        path: "/workspace/:fileID",
         element: <pages.Workspace />,
       },
     ],
