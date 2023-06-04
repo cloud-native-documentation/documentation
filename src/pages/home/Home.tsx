@@ -1,7 +1,9 @@
 import createProjectIcon from "../../assets/create_project.svg";
 import existProjectIcon from "../../assets/exist_project.png";
 import ProjectCard from "./ProjectCard";
+import { useAuthStore } from "./store/auth";
 
+// Styles for the component
 const styles = {
   homeContainer: {
     display: "flex",
@@ -18,24 +20,33 @@ const styles = {
 };
 
 function Home() {
-  return (
-    <div style={styles.homeContainer}>
-      <div style={styles.projectCards}>
-        <ProjectCard
-          imageSrc={createProjectIcon}
-          altText="Create a project"
-          description="Create a project"
-          href="explorer"
-        />
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-        <ProjectCard
-          imageSrc={existProjectIcon}
-          altText="Open an existing item"
-          description="Open an existing item"
-          href="workspace"
-        />
+  return (
+    // Conditional rendering based on the isLoggedIn state
+    !isLoggedIn ? (
+      <div>
+        <span>fuck</span>
       </div>
-    </div>
+    ) : (
+      <div style={styles.homeContainer}>
+        <div style={styles.projectCards}>
+          <ProjectCard
+            imageSrc={createProjectIcon}
+            altText="Create a project"
+            description="Create a project"
+            href="explorer"
+          />
+
+          <ProjectCard
+            imageSrc={existProjectIcon}
+            altText="Open an existing item"
+            description="Open an existing item"
+            href="explorer"
+          />
+        </div>
+      </div>
+    )
   );
 }
 
