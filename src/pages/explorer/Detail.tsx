@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { ListGroup, Card, Modal, Button } from "flowbite-react";
+import { Button, Card, ListGroup, Modal } from "flowbite-react";
 
+import { BiShow } from "react-icons/bi";
 import { HiUser } from "react-icons/hi";
 import { VscEdit } from "react-icons/vsc";
-import { BiShow } from "react-icons/bi";
 
 const PermissionModal: React.FC<{
   show: boolean;
@@ -76,12 +76,14 @@ const PermissionModal: React.FC<{
 
 const Detail: React.FC<{
   selectProject: string;
-  setSelectProject: React.Dispatch<React.SetStateAction<string>>;
+  // setSelectProject: any;
 }> = (props) => {
   const RoleItem: React.FC<{ name: string; role: string }> = (props) => {
-    const [editModal, setEditModel] = useState<boolean>(false);
+    const [setEditModel] = useState<boolean>(false);
     const [selectName, setSelectName] = useState<string>("");
     const [role, setRole] = useState<string>("edit");
+
+    console.log(editModal);
 
     return (
       <ListGroup.Item
@@ -99,7 +101,7 @@ const Detail: React.FC<{
           {props.role == "view" && <BiShow className="h-5 w-5" />}
         </div>
         <PermissionModal
-          show={editModal}
+          show={false}
           setShow={setEditModel}
           person={selectName}
           role={role}
@@ -109,17 +111,21 @@ const Detail: React.FC<{
     );
   };
 
+  // const users = ["Person A", "Person B", "Person C"];
+
   return (
     <div className="flex grow flex-col items-center py-3">
       <div className="w-11/12 py-3">
-        <Card className="dark:bg-blue-400">
-          <p className="text-xl font-bold">{props.selectProject}</p>
-          <ListGroup>
-            <RoleItem name="Person A" role={"owner"} />
-            <RoleItem name="Person B" role={"edit"} />
-            <RoleItem name="Person C" role={"view"} />
-          </ListGroup>
-        </Card>
+        {props.selectProject !== "" && (
+          <Card className="dark:bg-blue-400">
+            <p className="text-xl font-bold">{props.selectProject}</p>
+            <ListGroup>
+              <RoleItem name="Person A" role={"owner"} />
+              <RoleItem name="Person B" role={"edit"} />
+              <RoleItem name="Person C" role={"view"} />
+            </ListGroup>
+          </Card>
+        )}
       </div>
     </div>
   );

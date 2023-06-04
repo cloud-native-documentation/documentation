@@ -1,21 +1,40 @@
-// import axios from 'axios'
-import useSWR from "swr";
+import axios from "axios";
 import apiConfig from "../apiConfig";
+import useSWRMutation from "swr/mutation";
+
 import { DocumentRespType } from "../../model/api/document";
 
-// const fetcher = ([url, filepath]: [string, string]) =>
-//   axios.get(url).then((res) => res.data as DocumentRespType);
+import { useFileStore } from "../../store/workspace";
 
-const fetcher = ([url, filepath]: [string, string]) => {
-  console.log(url);
-  return filepath !== ""
-    ? ({ status: "success", content: filepath } as DocumentRespType)
-    : null;
+type DocumentData = {
+  file: string;
+  directory: string;
+  project: string;
 };
-const useDocument = (loadDocument: boolean, filepath: string) =>
-  useSWR(
-    loadDocument ? [apiConfig.url.document.view(), filepath] : null,
-    fetcher
-  );
+
+const getDocument = (
+  _: string,
+  { arg: { file, directory, project } }: { arg: DocumentData }
+) => {
+  const url = apiConfig.url.document.view();
+  const config = {
+    params: {
+      file: file,
+      directory: directory,
+      project: project,
+    },
+  };
+
+  return axios
+    .get(url, config)
+    .then((res) => res.data as DocumentRespType)
+    .then((data) => {
+      useFileStore.getState().selectFile(file);
+      useFileStore.getState().setContent(data.content);
+    });
+};
+
+const useDocument = () =>
+  useSWRMutation(apiConfig.url.document.view(), getDocument);
 
 export default useDocument;

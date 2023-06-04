@@ -1,27 +1,21 @@
-import React, { useState } from "react";
-
-import { useDocument } from "../../api/document";
+import React from "react";
 
 import { useFileStore } from "../../store/workspace";
 
 const TextArea: React.FC = () => {
-  const { filepath } = useFileStore();
-  const [loadDocument] = useState(true);
-  const document = useDocument(loadDocument, filepath);
+  const { content, setContent } = useFileStore();
 
-  if (document.error) {
-    return <>Error fetching documents</>;
-  }
+  const HandleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
 
-  if (document.isLoading) {
-    return <>Fetching documents...</>;
-  }
-
-  if (document.data == null) {
-    return <>Not Selected</>;
-  }
-
-  return <>TextArea: {document.data?.content}</>;
+  return (
+    <textarea
+      value={content || ""}
+      onChange={HandleContentChange}
+      className="block h-full w-full rounded-lg border-none p-2.5 text-sm text-gray-900"
+    />
+  );
 };
 
 export default TextArea;
