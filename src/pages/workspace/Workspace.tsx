@@ -1,16 +1,20 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 import { useDocument } from "../../api/document";
 
 import Version from "./Version";
 import TextArea from "./TextArea";
 
 const Workspace: React.FC = () => {
+  const location = useLocation();
   const { fileID } = useParams();
   const { trigger: triggerDocument, error: errorDocument } = useDocument();
 
   useEffect(() => {
     if (errorDocument) {
+      return;
+    }
+    if (location.hash) {
       return;
     }
     triggerDocument({ fileID: fileID || "" });
