@@ -1,7 +1,6 @@
-import createProjectIcon from "../../assets/create_project.svg";
-import existProjectIcon from "../../assets/exist_project.png";
-import ProjectCard from "./ProjectCard";
+import { useAuthStore } from "../../store/auth";
 
+// Styles for the component
 const styles = {
   homeContainer: {
     display: "flex",
@@ -18,23 +17,15 @@ const styles = {
 };
 
 function Home() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
   return (
     <div style={styles.homeContainer}>
-      <div style={styles.projectCards}>
-        <ProjectCard
-          imageSrc={createProjectIcon}
-          altText="Create a project"
-          description="Create a project"
-          href="explorer"
-        />
-
-        <ProjectCard
-          imageSrc={existProjectIcon}
-          altText="Open an existing item"
-          description="Open an existing item"
-          href="workspace"
-        />
-      </div>
+      {isLoggedIn ? (
+        <h1 className="text-center text-9xl font-extrabold">Welcome!</h1>
+      ) : (
+        <h1 className="text-center text-9xl font-extrabold">Please Login!</h1>
+      )}
     </div>
   );
 }
