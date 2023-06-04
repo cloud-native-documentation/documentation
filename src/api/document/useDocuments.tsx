@@ -2,15 +2,13 @@ import axios from "axios";
 import useSWR from "swr";
 import apiConfig from "../apiConfig";
 
-import { DocumentsRespType } from "../../model/api/document";
-
 import { useProjectStore } from "../../store/workspace";
 
 const fetcher = ([url, project, directory]: [
   string,
   string,
   string
-]): Promise<DocumentsRespType> => {
+]) => {
   const config = {
     params: {
       project: project,
@@ -20,7 +18,7 @@ const fetcher = ([url, project, directory]: [
 
   return axios
     .get(url, config)
-    .then((res) => res.data as DocumentsRespType)
+    .then((res) => res.data)
     .then((data) => {
       useProjectStore.getState().updateProjectFiles(data.documentlist);
       return data;
