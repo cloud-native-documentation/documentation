@@ -1,22 +1,33 @@
 import axios from "axios";
 import apiConfig from "../apiConfig";
+import useSWRMutation from "swr/mutation";
+import { useAuthStore } from "../../store/auth";
 import { LoginRespType } from "../../model/api/auth";
 
-const useLogin = (
-  username: string,
-  password: string,
-  setJwt: (token: string) => void
-) => {
-  return axios
+async function login(
+  _: string,
+  {
+    arg: { username, password },
+  }: { arg: { username: string; password: string } }
+) {
+  await axios
     .post(apiConfig.url.auth.login(), {
-      username,
-      password,
+      username: username,
+      password: password,
     })
-    .then((res) => res.data as LoginRespType)
+    .then((res) => {
+      return res.data as LoginRespType;
+    })
     .then((data) => {
-      setJwt(data.token);
+      useAuthStore.getState().set(data.token);
       return data;
+    })
+    .catch((err) => {
+      if (err.response.data?.detail) throw new Error(err.response.data.detail);
+      else throw err;
     });
-};
+}
+
+const useLogin = () => useSWRMutation(apiConfig.url.auth.login(), login);
 
 export default useLogin;

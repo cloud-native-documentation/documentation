@@ -14,14 +14,18 @@ const TextArea: React.FC = () => {
   }
 
   if (document.isLoading) {
-    return <>Fetching documents...</>;
+    return <></>;
   }
 
   if (document.data == null) {
-    return <>Not Selected</>;
+    return <></>;
   }
 
-  return <>TextArea: {document.data?.content}</>;
+  return (
+    <textarea className="block p-2.5 h-full w-full text-sm text-gray-900 rounded-lg border-none">
+      {document.data?.content}
+    </textarea>
+  );
 };
 
 export default TextArea;

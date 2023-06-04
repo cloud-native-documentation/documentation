@@ -1,44 +1,42 @@
 import React from "react";
+import { Button } from "flowbite-react";
 
-import { useHistoryActions } from "../../api/document";
+import { IoMdClose } from "react-icons/io";
 
-import {
-  useFileStore,
-  useIsHistoryStore,
-  useTabsStore,
-  useVersionStore,
-} from "../../store/workspace";
+import { useFileStore, useTabsStore } from "../../store/workspace";
 
 const Tabs: React.FC = () => {
   const { tabs, removeTab } = useTabsStore();
-  const { selectFile } = useFileStore();
-  const { isHistory } = useIsHistoryStore();
-  const { version } = useVersionStore();
-  const historyActions = useHistoryActions(isHistory, version);
-
-  if (isHistory) {
-    return (
-      <>
-        {historyActions.data?.map((historyAction) => (
-          <div key={historyAction.filepath}>
-            <button onClick={() => selectFile(historyAction.filepath)}>
-              {historyAction.filepath}
-            </button>
-          </div>
-        ))}
-      </>
-    );
-  }
+  const { filepath, selectFile } = useFileStore();
 
   return (
-    <>
+    <div className="flex w-full divide-x-2 divide-violet-200 bg-violet-200">
       {tabs.map((tab) => (
-        <div key={tab}>
-          <button onClick={() => selectFile(tab)}>{tab}</button>
-          <button onClick={() => removeTab(tab)}>(x)</button>
-        </div>
+        <Button.Group key={tab}>
+          <Button
+            className="rounded-none bg-violet-100 hover:bg-violet-50"
+            onClick={() => selectFile(tab)}
+          >
+            <div className="text-gray-900">
+              {tab}
+            </div>
+          </Button>
+          <Button
+            className="rounded-none bg-violet-100 hover:bg-violet-50"
+            onClick={() => {
+              removeTab(tab);
+              if (filepath === tab) {
+                selectFile("");
+              }
+            }}
+          >
+            <div className="text-gray-900">
+              <IoMdClose className="h-5 w-5" />
+            </div>
+          </Button>
+        </Button.Group>
       ))}
-    </>
+    </div>
   );
 };
 

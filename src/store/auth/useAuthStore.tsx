@@ -1,23 +1,23 @@
 import { create } from "zustand";
 
 interface AuthStoreState {
-  jwt: string | null;
+  token: string | null;
   isLoggedIn: boolean;
-  setJwt: (token: string) => void;
-  clearJwt: () => void;
+  set: (token: string) => void;
+  clear: () => void;
 }
 
 const useAuthStore = create<AuthStoreState>((set) => ({
-  jwt: localStorage.getItem("jwt") || null,
-  isLoggedIn: localStorage.getItem("jwt") !== null,
-  setJwt: (token) => {
+  token: localStorage.getItem("jwt") || null,
+  isLoggedIn: !!localStorage.getItem("jwt"),
+  set: (token) => {
     localStorage.setItem("jwt", token);
-    set(() => ({ jwt: token }));
+    set(() => ({ token: token }));
     set(() => ({ isLoggedIn: true }));
   },
-  clearJwt: () => {
+  clear: () => {
     localStorage.removeItem("jwt");
-    set(() => ({ jwt: null }));
+    set(() => ({ token: null }));
     set(() => ({ isLoggedIn: false }));
   },
 }));
