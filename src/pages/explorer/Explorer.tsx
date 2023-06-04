@@ -30,17 +30,9 @@ const Explorer: React.FC = () => {
   return (
     <div className="absolute flex h-full w-full divide-x divide-gray-600 bg-blue-100 text-xl">
       <Sidebar title="Home" isFile={true} />
-      <Projects
-        selectProject={selectedProject}
-        // setSelectProject={setSelectedProject}
-        projects={projectData}
-        // setProjects={setProjects}
-      />
+      <Projects selectProject={selectedProject} projects={projectData} />
       <Files selectProject={selectedProject} />
-      <Detail
-        selectProject={selectedProject}
-        // setSelectProject={setSelectedProject}
-      />
+      <Detail selectProject={selectedProject} />
     </div>
   );
 };

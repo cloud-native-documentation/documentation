@@ -7,7 +7,6 @@ import {
   Label,
   Tabs,
 } from "flowbite-react";
-
 import {
   HiFolder,
   HiDocumentAdd,
@@ -15,6 +14,9 @@ import {
   HiDocument,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
+
+import usePath from "../../store/explorer/usePath";
+import { useOldDocument } from "../../api/document";
 
 const DeleteModeal: React.FC<{
   show: boolean;
@@ -131,17 +133,20 @@ const AddModal: React.FC<{
 
 const Files: React.FC<{ selectProject: string }> = (props) => {
   const FilePanel: React.FC<{
-    path: string;
+    show: string;
     select: string;
-    setPath: React.Dispatch<React.SetStateAction<string>>;
+    setNextPath: (path: string) => void | null;
+    setSelect: (path: string) => void;
     files: string[];
   }> = (props) => {
     const [delShow, setDelshow] = useState<boolean>(false);
     const [addShow, setAddshow] = useState<boolean>(false);
 
+    const { setSelectFile, selectFile } = usePath();
+
     return (
       <div className="flex w-full flex-col items-center py-3">
-        <p>{props.path}</p>
+        <p>{props.show}</p>
         <div className="w-11/12 py-3">
           <div className="flex flex-wrap items-center justify-center gap-2 pb-3">
             <div>
@@ -183,7 +188,9 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
                     active={file == props.select}
                     icon={HiFolder}
                     onClick={() => {
-                      props.setPath(file);
+                      props.setSelect(file);
+                      props.setNextPath(file);
+                      setSelectFile("");
                     }}
                     key={index}
                   >
@@ -193,10 +200,11 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
               }
               return (
                 <ListGroup.Item
-                  active={file == props.select}
+                  active={file == selectFile}
                   icon={HiDocument}
                   onClick={() => {
-                    props.setPath(file);
+                    props.setSelect(file);
+                    setSelectFile(file);
                   }}
                   key={index}
                 >
@@ -209,26 +217,37 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
       </div>
     );
   };
-  const [dir3Path, setDir3Path] = useState<string>("");
-  const [dir2Path, setDir2Path] = useState<string>("Dir1/");
 
-  const files1 = ["Dir1/", "Dir2/", "Dir3/"];
-  const files2 = ["File A", "File B", "File C", "File D"];
+  const { path_f, path_s, setPathF, setPathS } = usePath();
+
+  // const [dir3Path, setDir3Path] = useState<string>("");
+  // const { selectedProject } = useSelectProjectStore();
+
+  const files1 = useOldDocument(props.selectProject, "/", true);
+  // const files1 = ["Dir1/", "Dir2/", "Dir3/", "README.md"];
+  // const files2 = ["File A", "File B", "File C", "File D"];
+  const files2 = useOldDocument(props.selectProject, "/" + path_s + "/", true);
 
   return (
     <div className="m-0 flex h-full w-5/12 space-x-0 divide-x divide-gray-700 p-0">
-      <FilePanel
-        path={props.selectProject}
-        select={dir2Path}
-        setPath={setDir2Path}
-        files={files1}
-      />
-      <FilePanel
-        path={dir2Path}
-        select={dir3Path}
-        setPath={setDir3Path}
-        files={files2}
-      />
+      {files1.data !== undefined && (
+        <FilePanel
+          show={props.selectProject}
+          select={path_f}
+          setNextPath={setPathS}
+          setSelect={setPathF}
+          files={files1.data.documentlist}
+        />
+      )}
+      {path_s != "" && files2.data !== undefined && (
+        <FilePanel
+          show={path_s}
+          select={path_s}
+          setNextPath={null}
+          setSelect={setPathS}
+          files={files2.data.documentlist}
+        />
+      )}
     </div>
   );
 };
