@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
+
 import { VscSave } from "react-icons/vsc";
 
 import { useDocument, useCommitDocument, useVersion } from "../../api/document";
@@ -65,10 +67,13 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
           key={element.version}
           onClick={() => HandleDocument(element.version)}
         >
-          <span>Version: {element.version}</span>
-          <span>Type: {element.type}</span>
-          <span>User: {element.user}</span>
-          <span>Time: {element.time}</span>
+          <div className="flex flex-col">
+            <div className="flex justify-between">
+              <div className="whitespace-nowrap">Ver {element.version}</div>
+              <div className="whitespace-nowrap">({element.type} by {element.user})</div>
+            </div>
+            <div className="whitespace-nowrap">Time: {moment(element.time).fromNow()}</div>
+          </div>
         </Button>
       ))}
     </div>
