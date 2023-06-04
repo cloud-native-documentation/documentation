@@ -15,6 +15,7 @@ import {
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
 import { BsFillBuildingFill } from "react-icons/bs";
+
 import { HiUser } from "react-icons/hi";
 import { BiShow } from "react-icons/bi";
 import usePath from "../../store/explorer/usePath";
@@ -58,7 +59,6 @@ const DeleteModeal: React.FC<{
                 e.stopPropagation();
                 props.setShow(false);
                 if (selectFile === "0") {
-                  // directory type
                   useDeleteDirectory(selectFileName, selectedProject)
                     .then((data) => {
                       if (data.status === "success") {
