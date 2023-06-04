@@ -1,5 +1,8 @@
 import React from "react";
 import { Spinner, Table } from 'flowbite-react';
+
+import moment from "moment";
+
 import useAction from "../api/useAction";
 import { Link } from "react-router-dom";
 
@@ -39,7 +42,7 @@ const Action: React.FC = () => {
                   {action.type}
                 </Table.Cell>
                 <Table.Cell>
-                  {action.time}
+                  {moment(action.time).fromNow()}
                 </Table.Cell>
               </Table.Row>))}
           </Table.Body>
