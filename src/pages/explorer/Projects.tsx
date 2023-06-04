@@ -65,12 +65,11 @@ const DeleteModal: React.FC<{
         } else {
           alert("Delete Failed");
         }
-      }).catch((err) => {
-        if (err.response.data.status)
-          alert(err.response.data.status);
-        else
-          alert("Delete Failed");
       })
+      .catch((err) => {
+        if (err.response.data.status) alert(err.response.data.status);
+        else alert("Delete Failed");
+      });
   }
   return (
     <Modal

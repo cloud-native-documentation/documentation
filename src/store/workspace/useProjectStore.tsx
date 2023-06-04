@@ -69,9 +69,9 @@ const useProjectStore = create<ProjectStoreState>((set) => ({
         const index = newProjectFiles.findIndex(
           (element) => element.name === directory
         );
-        newProjectFiles[index].children = newProjectFiles[index].children?.filter(
-          (element) => element.name !== name
-        );
+        newProjectFiles[index].children = newProjectFiles[
+          index
+        ].children?.filter((element) => element.name !== name);
       }
       return {
         projectFiles: newProjectFiles,

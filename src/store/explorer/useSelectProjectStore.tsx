@@ -12,9 +12,9 @@ const useSelectProjectStore = create<selectProject>((set) => ({
     set(() => ({
       selectedProject: name,
     })),
-  clearSelectedProject: () => 
+  clearSelectedProject: () =>
     set(() => ({
-      selectedProject: "",  
+      selectedProject: "",
     })),
 }));
 

@@ -47,7 +47,9 @@ axios.interceptors.response.use(
     return response;
   },
   async function (error) {
-    if (error.response.status === 401) useAuthStore.getState().clear();
+    if (error.response) {
+      if (error.response.status === 401) useAuthStore.getState().clear();
+    }
     return Promise.reject(error);
   }
 );

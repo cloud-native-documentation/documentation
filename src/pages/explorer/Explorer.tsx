@@ -19,7 +19,7 @@ const Explorer: React.FC = () => {
   useEffect(() => {
     if (projects.isLoading || projects.error || projects.data === undefined)
       return;
-    console.log(projects.isLoading)
+    console.log(projects.isLoading);
     const new_data: ProjectType[] = [];
     projects.data.forEach((project) => {
       new_data.push(project);
@@ -34,12 +34,12 @@ const Explorer: React.FC = () => {
         selectProject={selectedProject}
         // setSelectProject={setSelectedProject}
         projects={projectData}
-      // setProjects={setProjects}
+        // setProjects={setProjects}
       />
       <Files selectProject={selectedProject} />
       <Detail
         selectProject={selectedProject}
-      // setSelectProject={setSelectedProject}
+        // setSelectProject={setSelectedProject}
       />
     </div>
   );

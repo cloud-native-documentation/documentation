@@ -5,15 +5,15 @@ import { ProjectsResType } from "../../model/api/project";
 
 const exampleProject: ProjectsResType = {
   status: "success",
-  projectlist: [{
-    "name": "Project 1",
-    "describe": "Describe for Project 1, team EUV"
-  },]
+  projectlist: [
+    {
+      name: "Project 1",
+      describe: "Describe for Project 1, team EUV",
+    },
+  ],
 };
 
-const fetcher = ([url]: [
-  string,
-]) => {
+const fetcher = ([url]: [string]) => {
   return exampleProject.projectlist;
   console.log(url);
   // return namelist !== null

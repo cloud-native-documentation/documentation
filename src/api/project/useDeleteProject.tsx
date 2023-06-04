@@ -3,12 +3,10 @@ import apiConfig from "../apiConfig";
 
 import { DeleteDocumentRespType } from "../../model/api/document";
 
-const deleteProject = (
-  project: string
-) => {
+const deleteProject = (project: string) => {
   const url = apiConfig.url.project.delete();
   const data = {
-    project: project
+    project: project,
   };
 
   return axios
