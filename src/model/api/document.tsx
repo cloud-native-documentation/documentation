@@ -28,9 +28,9 @@ export interface CommitDocumentRespType {
 
 interface HistoryItemType {
   version: string;
-  username: string;
+  user: string;
   type: string;
-  modifyDate: string;
+  time: string;
 }
 
 export interface HistoryRespType {
