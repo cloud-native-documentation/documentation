@@ -14,18 +14,22 @@ import { HiFolderPlus } from "react-icons/hi2";
 import { AiFillLock, AiOutlineTeam } from "react-icons/ai";
 import { BsBuildingFill } from "react-icons/bs";
 
+import { useSelectProjectStore } from "../../store/explorer";
+
 const ProjectCard: React.FC<{
   title: string;
   text: string;
-  selectedProject: string;
-  setSelectdProject: React.Dispatch<React.SetStateAction<string>>;
+  // selectedProject: string;
+  // setSelectdProject: React.Dispatch<React.SetStateAction<string>>;
 }> = (props) => {
+  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+
   return (
     <ListGroup.Item
-      active={props.selectedProject == props.title}
+      active={selectedProject == props.title}
       className="flex items-center justify-center dark:bg-blue-300"
       onClick={() => {
-        props.setSelectdProject(props.title);
+        setSelectedProject(props.title);
       }}
     >
       <Card className="w-full dark:border-blue-600 dark:bg-transparent">
@@ -173,11 +177,7 @@ const AddModal: React.FC<{
 
 const Projects: React.FC<{
   selectProject: string;
-  setSelectProject: React.Dispatch<React.SetStateAction<string>>;
   projects: { title: string; describe: string }[];
-  setProjects: React.Dispatch<
-    React.SetStateAction<{ title: string; describe: string }[]>
-  >;
 }> = (props) => {
   const [delShow, setDelshow] = useState<boolean>(false);
   const [addShow, setAddshow] = useState<boolean>(false);
@@ -216,8 +216,6 @@ const Projects: React.FC<{
               <ProjectCard
                 title={project.title}
                 text={project.describe}
-                selectedProject={props.selectProject}
-                setSelectdProject={props.setSelectProject}
                 key={index}
               ></ProjectCard>
             );
