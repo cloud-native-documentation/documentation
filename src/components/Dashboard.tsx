@@ -33,6 +33,12 @@ function Dashboard() {
   };
   const [showExplorer, setShowExplorer] = useState(false);
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setShowExplorer(false); // Redirect to the home page or login page
+    }
+  }, [isLoggedIn, setShowExplorer]);
+
   const handleOpenExplorer = () => {
     setShowExplorer(!showExplorer);
   };
