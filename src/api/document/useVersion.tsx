@@ -12,8 +12,7 @@ const fetcher = ([url, fileID]: [string, string]): Promise<HistoryRespType> => {
 const useVersion = (fileID: string, loadVerison: boolean) => {
   return useSWR(
     loadVerison ? [apiConfig.url.document.history(), fileID] : null,
-    fetcher,
-    { refreshInterval: 1000 }
+    fetcher
   );
 };
 
