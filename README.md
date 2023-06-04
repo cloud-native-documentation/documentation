@@ -21,5 +21,6 @@ Before running the Docker image, make sure you have the following prerequisites 
     --restart=always \
     -p 3000:3000 \
     -d \
+    --env-file .env \
     frontend
    ```
