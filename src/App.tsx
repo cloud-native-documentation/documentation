@@ -1,8 +1,24 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import * as components from "./components";
 import * as pages from "./pages";
-import PrivateRoute from "./private_route";
+import useAuthStore from "./store/auth/useAuthStore";
+function PrivateRoute() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const navigate = useNavigate();
+
+  if (!isLoggedIn) {
+    navigate("/"); // Redirect to the home page or login page
+    return null; // Or render a loading state, error message, etc.
+  }
+
+  return <Outlet />;
+}
 const router = createBrowserRouter([
   {
     path: "/",
