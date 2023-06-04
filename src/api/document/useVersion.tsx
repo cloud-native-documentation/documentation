@@ -5,8 +5,12 @@ import apiConfig from "../apiConfig";
 import { HistoryRespType } from "../../model/api/document";
 
 const fetcher = ([url, fileID]: [string, string]): Promise<HistoryRespType> => {
-  const data = { id: fileID };
-  return axios.post(url, data).then((res) => res.data as HistoryRespType);
+  const config = {
+    params: {
+      id: fileID
+    },
+  };
+  return axios.get(url, config).then((res) => res.data as HistoryRespType);
 };
 
 const useVersion = (fileID: string, loadVerison: boolean) => {

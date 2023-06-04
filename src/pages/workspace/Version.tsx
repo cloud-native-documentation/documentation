@@ -31,13 +31,13 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
   }, [errorDocument, errorCommitDocument]);
 
   useEffect(() => {
-    if (!isMutatingCommitDocument) {
-    version.mutate();
+    if (!isMutatingCommitDocument && !version.error) {
+      version.mutate();
     }
   }, [version, isMutatingCommitDocument]);
 
   if (version.isLoading || version.error) {
-    return <></>;
+    return <>error</>;
   }
 
   return (
@@ -58,8 +58,8 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
         >
           <span>Version: {element.version}</span>
           <span>Type: {element.type}</span>
-          <span>Username: {element.username}</span>
-          <span>ModifyDate: {element.modifyDate}</span>
+          <span>User: {element.user}</span>
+          <span>Time: {element.time}</span>
         </Button>
       ))}
     </div>
