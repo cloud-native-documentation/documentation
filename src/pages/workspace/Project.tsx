@@ -4,14 +4,14 @@ import { Button, Sidebar } from "flowbite-react";
 
 import {
   useDocuments,
+  useDocument,
   useCreateDocument,
   useDeleteDocument,
 } from "../../api/document";
 
-import { useProjectStore, useFileStore } from "../../store/workspace";
+import { useProjectStore } from "../../store/workspace";
 
 const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
-  const { selectFile } = useFileStore();
   const { projectFiles } = useProjectStore();
   const documents = useDocuments(projectID, "/", true);
   const {
@@ -19,6 +19,11 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
     error: errorCreateDocument,
     isMutating: isMutatingCreateDocument,
   } = useCreateDocument();
+  const {
+    trigger: triggerDocument,
+    error: errorDocument,
+    isMutating: isMutatingDocument,
+  } = useDocument();
 
   // useEffect(() => {
   //   if (documents.error) {
@@ -31,6 +36,12 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
       alert(errorCreateDocument.message);
     }
   }, [errorCreateDocument]);
+
+  useEffect(() => {
+    if (errorDocument) {
+      alert(errorDocument.message);
+    }
+  }, [errorDocument]);
 
   if (documents.error) {
     return <>Error fetching documents</>;
@@ -45,15 +56,23 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
     e.preventDefault();
     triggerCreateDocument({
       file: e.currentTarget.filename.value,
-      directory: "/NYCU/",
+      directory: "NYCU/",
       project: projectID,
       isPublic: "0",
       isPrivate: "1",
     });
   };
 
+  const HandleGetDocument = (name: string) => {
+    triggerDocument({
+      file: name,
+      directory: "/",
+      project: projectID,
+    })
+  };
+
   const HandleDeleteDocument = () => {
-    useDeleteDocument("file2", "/NYCU/", projectID);
+    useDeleteDocument("file2", "/", projectID);
   };
 
   return (
@@ -89,14 +108,18 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
                 <Sidebar.Item
                   className="hover:bg-violet-200"
                   key={element.name}
-                  onClick={() => selectFile(element.name)}
+                  onClick={() => HandleGetDocument(element.name)}
                 >
                   {element.name}
                 </Sidebar.Item>
               ) : (
                 <Sidebar.Collapse key={element.name} label={element.name}>
                   {element.children?.map((e) => (
-                    <Sidebar.Item key={e.name} onClick={() => selectFile(e.name)}>
+                    <Sidebar.Item
+                      key={e.name}
+                      onClick={() => HandleGetDocument(e.name)}
+                      disabled={isMutatingDocument}
+                    >
                       {e.name}
                     </Sidebar.Item>
                   ))}
