@@ -1,16 +1,26 @@
 import axios from "axios";
 import apiConfig from "../apiConfig";
+import useSWRMutation from "swr/mutation";
 
 import { CreateDocumentRespType } from "../../model/api/document";
 
 import { useProjectStore } from "../../store/workspace";
 
-const useCreateDocument = (
-  file: string,
-  directory: string,
-  project: string,
-  isPublic: string,
-  isPrivate: string
+type createDocumentData = {
+  file: string;
+  directory: string;
+  project: string;
+  isPublic: string;
+  isPrivate: string;
+};
+
+const createDocument = (
+  _: string,
+  {
+    arg: { file, directory, project, isPublic, isPrivate },
+  }: {
+    arg: createDocumentData;
+  }
 ) => {
   const url = apiConfig.url.document.create();
   const data = {
@@ -29,5 +39,8 @@ const useCreateDocument = (
       return data;
     });
 };
+
+const useCreateDocument = () =>
+  useSWRMutation(apiConfig.url.document.create(), createDocument);
 
 export default useCreateDocument;
