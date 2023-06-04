@@ -14,6 +14,7 @@ import {
   HiDocument,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
+import { BsFillBuildingFill } from "react-icons/bs";
 import { HiUser } from "react-icons/hi";
 import { BiShow } from "react-icons/bi";
 import usePath from "../../store/explorer/usePath";
@@ -57,8 +58,6 @@ const DeleteModeal: React.FC<{
                 e.stopPropagation();
                 props.setShow(false);
                 if (selectFile === "0") {
-                  // directory type
-                  console.log("delete directory");
                   useDeleteDirectory(selectFileName, selectedProject)
                     .then((data) => {
                       if (data.status === "success") {
@@ -113,20 +112,44 @@ const DeleteModeal: React.FC<{
 const AddModal: React.FC<{
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  directory: string;
 }> = (props) => {
-  const {
-    trigger: triggerCreateDocument,
-    // error: errorCreateDocument,
-    // isMutating: isMutatingCreateDocument,
-  } = useCreateDocument();
-
   const ref = useRef<HTMLInputElement>(null);
   const { selectedProject } = useSelectProjectStore();
+
+  const [isFile, setIsFile] = useState<boolean>(false);
+  const [isPublic, setIsPublic] = useState<string>("0");
+  const [isPrivate, setIsPrivate] = useState<string>("0");
+
+  const handleCreate = (ref: React.RefObject<HTMLInputElement>) => {
+    if (ref.current !== null) {
+      if (isFile) {
+        console.log("create file");
+        useCreateDocument(
+          ref["current"]["value"],
+          props.directory,
+          selectedProject,
+          isPublic,
+          isPrivate
+        ).then((data) => {
+          if (data.status === "success") {
+            props.setShow(false);
+            alert("Create Success");
+          } else {
+            alert("Create Failed");
+          }
+        });
+      }
+      if (!isFile) {
+        console.log("create directory");
+      }
+    } else alert("Must give name");
+  };
 
   return (
     <Modal
       show={props.show}
-      size="md"
+      size="lg"
       popup={true}
       onClose={() => {
         props.setShow(false);
@@ -138,29 +161,70 @@ const AddModal: React.FC<{
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
             Add Files or Directory
           </h3>
-          <Tabs.Group aria-label="Tabs with icons" style="underline">
-            <Tabs.Item active={true} title="Folder" icon={HiFolder}>
-              Folder
-            </Tabs.Item>
-            <Tabs.Item title="File" icon={HiDocument}>
-              File
-              <Tabs.Group aria-label="Tabs with icons" style="underline">
-                <Tabs.Item active={true} title="Public" icon={BiShow}>
-                  Public
-                </Tabs.Item>
-                <Tabs.Item title="Private" icon={HiUser}>
-                  Private
-                </Tabs.Item>
-              </Tabs.Group>
-            </Tabs.Item>
-          </Tabs.Group>
+          <Button.Group>
+            <Button
+              title="Folder"
+              // icon={HiFolder}
+              onClick={() => {
+                console.log("set false of is file");
+                setIsFile(false);
+              }}
+            >
+              Add Folder
+            </Button>
+            <Button
+              title="File"
+              // icon={HiDocument}
+              onClick={() => {
+                console.log("set true of is file");
+                setIsFile(true);
+              }}
+            >
+              Add Document
+            </Button>
+          </Button.Group>
+          {isFile && (
+            <Button.Group>
+              <Button
+                // active={true}
+                title="Public"
+                // icon={BiShow}
+                onClick={() => {
+                  setIsPrivate("0");
+                  setIsPublic("1");
+                }}
+              >
+                Public
+              </Button>
+              <Button
+                title="Private"
+                // icon={HiUser}
+                onClick={() => {
+                  setIsPrivate("1");
+                  setIsPublic("0");
+                }}
+              >
+                Private
+              </Button>
+              <Button
+                title="Department"
+                // icon={BsFillBuildingFill}
+                onClick={() => {
+                  setIsPrivate("0");
+                  setIsPublic("0");
+                }}
+              >
+                Department
+              </Button>
+            </Button.Group>
+          )}
           <div>
             <div className="mb-2 block">
               <Label htmlFor="filename" value="Name" />
             </div>
             <TextInput
               id="filename"
-              placeholder="NewFile01.md"
+              placeholder="Name"
               required={true}
               ref={ref}
             />
@@ -171,14 +235,7 @@ const AddModal: React.FC<{
               onClick={(e) => {
                 e.stopPropagation();
                 props.setShow(false);
-                if (ref.current !== null)
-                  triggerCreateDocument({
-                    file: ref.current.value,
-                    directory: "/",
-                    project: selectedProject,
-                    isPublic: "0",
-                    isPrivate: "0",
-                  });
+                handleCreate(ref);
               }}
             >
               Create
@@ -206,6 +263,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
     setNextPath: ((path: string) => void) | null;
     setSelect: (path: string) => void;
     files: OldDocumentType[];
+    path: string;
   }> = (props) => {
     const [delShow, setDelshow] = useState<boolean>(false);
     const [addShow, setAddshow] = useState<boolean>(false);
@@ -222,10 +280,14 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
                 pill={true}
                 onClick={() => {
                   setAddshow(true);
-                  console.log("add");
+                  // console.log("add");
                 }}
               >
-                <AddModal show={addShow} setShow={setAddshow} />
+                <AddModal
+                  show={addShow}
+                  setShow={setAddshow}
+                  directory={props.path}
+                />
                 Add
                 <HiDocumentAdd className="ml-1 h-5 w-5" />
               </Button>
@@ -299,6 +361,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
           setNextPath={setPathS}
           setSelect={setPathF}
           files={files1.data.documentlist}
+          path={"/"}
         />
       )}
       {path_s != "" && files2.data !== undefined && (
@@ -308,6 +371,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
           setNextPath={null}
           setSelect={setPathS}
           files={files2.data.documentlist}
+          path={path_s}
         />
       )}
     </div>
