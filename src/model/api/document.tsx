@@ -1,6 +1,12 @@
+export interface OldDocumentType {
+  name: string;
+  isFile: boolean;
+  id: string;
+}
+
 export interface OldDocumentsRespType {
   status: string;
-  documentlist: string[];
+  documentlist: OldDocumentType[];
 }
 
 export interface DocumentRespType {

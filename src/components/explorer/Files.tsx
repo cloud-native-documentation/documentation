@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   ListGroup,
   Button,
@@ -16,13 +16,25 @@ import {
 } from "react-icons/hi";
 
 import usePath from "../../store/explorer/usePath";
-import { useOldDocument } from "../../api/document";
+import {
+  useCreateDocument,
+  useDeleteDocument,
+  useOldDocument,
+} from "../../api/document";
+import { useSelectProjectStore } from "../../store/explorer";
+import { OldDocumentType } from "../../model/api/document";
 
 const DeleteModeal: React.FC<{
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   selectFile: string;
 }> = (props) => {
+  const {
+    trigger: triggerCreateDocument,
+    // error: errorCreateDocument,
+    // isMutating: isMutatingCreateDocument,
+  } = useDeleteDocument();
+
   return (
     <Modal
       show={props.show}
@@ -71,6 +83,15 @@ const AddModal: React.FC<{
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
+  const {
+    trigger: triggerCreateDocument,
+    // error: errorCreateDocument,
+    // isMutating: isMutatingCreateDocument,
+  } = useCreateDocument();
+
+  const ref = useRef<HTMLInputElement>(null);
+  const { selectedProject } = useSelectProjectStore();
+
   return (
     <Modal
       show={props.show}
@@ -102,6 +123,7 @@ const AddModal: React.FC<{
               id="filename"
               placeholder="NewFile01.md"
               required={true}
+              ref={ref}
             />
           </div>
 
@@ -111,6 +133,14 @@ const AddModal: React.FC<{
                 e.stopPropagation();
                 props.setShow(false);
                 alert("[TODO] Add");
+                if (ref.current !== null)
+                  triggerCreateDocument({
+                    file: ref.current.value,
+                    directory: "/",
+                    project: selectedProject,
+                    isPublic: "0",
+                    isPrivate: "0",
+                  });
               }}
             >
               Create
@@ -135,9 +165,9 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
   const FilePanel: React.FC<{
     show: string;
     select: string;
-    setNextPath: (path: string) => void | null;
+    setNextPath: ((path: string) => void) | null;
     setSelect: (path: string) => void;
-    files: string[];
+    files: OldDocumentType[];
   }> = (props) => {
     const [delShow, setDelshow] = useState<boolean>(false);
     const [addShow, setAddshow] = useState<boolean>(false);
@@ -182,33 +212,36 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
           </div>
           <ListGroup className="dark:bg-blue-500">
             {props.files.map((file, index) => {
-              if (file.endsWith("/")) {
+              console.log(file);
+              if (!file.isFile) {
                 return (
                   <ListGroup.Item
-                    active={file == props.select}
+                    active={file.id == props.select}
                     icon={HiFolder}
                     onClick={() => {
-                      props.setSelect(file);
-                      props.setNextPath(file);
+                      props.setSelect(file.id);
+                      if (props.setNextPath !== null)
+                        props.setNextPath(file.name);
                       setSelectFile("");
                     }}
                     key={index}
+                    id={file.id}
                   >
-                    {file.replace("/", "")}
+                    {file.name.replace("/", "")}
                   </ListGroup.Item>
                 );
               }
               return (
                 <ListGroup.Item
-                  active={file == selectFile}
+                  active={file.id == selectFile}
                   icon={HiDocument}
                   onClick={() => {
-                    props.setSelect(file);
-                    setSelectFile(file);
+                    props.setSelect(file.id);
+                    setSelectFile(file.id);
                   }}
                   key={index}
                 >
-                  {file}
+                  {file.name}
                 </ListGroup.Item>
               );
             })}
@@ -220,12 +253,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
 
   const { path_f, path_s, setPathF, setPathS } = usePath();
 
-  // const [dir3Path, setDir3Path] = useState<string>("");
-  // const { selectedProject } = useSelectProjectStore();
-
   const files1 = useOldDocument(props.selectProject, "/", true);
-  // const files1 = ["Dir1/", "Dir2/", "Dir3/", "README.md"];
-  // const files2 = ["File A", "File B", "File C", "File D"];
   const files2 = useOldDocument(props.selectProject, "/" + path_s + "/", true);
 
   return (
