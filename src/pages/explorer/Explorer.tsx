@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
 import Sidebar from "./Sidebar";
 import Projects from "./Projects";
@@ -10,7 +10,7 @@ import { useProjects } from "../../api/project";
 import { useSelectProjectStore } from "../../store/explorer";
 
 const Explorer: React.FC = () => {
-  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+  const { selectedProject } = useSelectProjectStore();
   // const [selectedProject, setSelectedProject] = useState<string>(" ");
 
   const projects = useProjects();
@@ -27,7 +27,7 @@ const Explorer: React.FC = () => {
       <Sidebar title="Home" isFile={true} />
       <Projects
         selectProject={selectedProject}
-        setSelectProject={setSelectedProject}
+        // setSelectProject={setSelectedProject}
         projects={projectData}
         // setProjects={setProjects}
       />
