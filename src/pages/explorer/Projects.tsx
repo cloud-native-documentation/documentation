@@ -15,6 +15,9 @@ import { AiFillLock, AiOutlineTeam } from "react-icons/ai";
 import { BsBuildingFill } from "react-icons/bs";
 
 import { useSelectProjectStore } from "../../store/explorer";
+import { useProjects } from "../../api/project";
+import deleteProject from "../../api/project/useDeleteProject";
+import { ProjectType } from "../../model/api/project";
 
 const ProjectCard: React.FC<{
   title: string;
@@ -49,6 +52,26 @@ const DeleteModal: React.FC<{
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   selectProject: string;
 }> = (props) => {
+  const { clearSelectedProject } = useSelectProjectStore();
+  const { mutate } = useProjects();
+  function handleDelete() {
+    deleteProject(props.selectProject)
+      .then((data) => {
+        if (data.status === "success") {
+          props.setShow(false);
+          clearSelectedProject();
+          mutate();
+          alert("Delete Success");
+        } else {
+          alert("Delete Failed");
+        }
+      }).catch((err) => {
+        if (err.response.data.status)
+          alert(err.response.data.status);
+        else
+          alert("Delete Failed");
+      })
+  }
   return (
     <Modal
       show={props.show}
@@ -70,8 +93,7 @@ const DeleteModal: React.FC<{
               color="failure"
               onClick={(e) => {
                 e.stopPropagation();
-                props.setShow(false);
-                alert("[TODO] Delete");
+                handleDelete();
                 console.log("delete", props.selectProject);
               }}
             >
@@ -177,7 +199,7 @@ const AddModal: React.FC<{
 
 const Projects: React.FC<{
   selectProject: string;
-  projects: { title: string; describe: string }[];
+  projects: ProjectType[];
 }> = (props) => {
   const [delShow, setDelshow] = useState<boolean>(false);
   const [addShow, setAddshow] = useState<boolean>(false);
@@ -214,7 +236,7 @@ const Projects: React.FC<{
           {props.projects.map((project, index) => {
             return (
               <ProjectCard
-                title={project.title}
+                title={project.name}
                 text={project.describe}
                 key={index}
               ></ProjectCard>

@@ -3,6 +3,7 @@ import { create } from "zustand";
 interface selectProject {
   selectedProject: string;
   setSelectedProject: (name: string) => void;
+  clearSelectedProject: () => void;
 }
 
 const useSelectProjectStore = create<selectProject>((set) => ({
@@ -10,6 +11,10 @@ const useSelectProjectStore = create<selectProject>((set) => ({
   setSelectedProject: (name) =>
     set(() => ({
       selectedProject: name,
+    })),
+  clearSelectedProject: () => 
+    set(() => ({
+      selectedProject: "",  
     })),
 }));
 

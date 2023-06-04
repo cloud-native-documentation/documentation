@@ -18,8 +18,9 @@ const apiConfig = {
       logout: () => `/user/logout`,
     },
     project: {
-      list: () => `${API_URL}/document/list_project`,
-      listUsers: () => `${API_URL}/document/list_project_user`,
+      list: () => `/document/list_project`,
+      delete: () => `/document/delete_project`,
+      listUsers: () => `/document/list_project_user`,
     },
   },
 };

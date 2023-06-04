@@ -5,28 +5,24 @@ import { ProjectsResType } from "../../model/api/project";
 
 const exampleProject: ProjectsResType = {
   status: "success",
-  projectlist: ["Project 1", "Project 2", "Project 3"],
-  describelist: [
-    "Describe for Project 1, team EUV",
-    "Private Project",
-    "[Confidential] Project X",
-  ],
+  projectlist: [{
+    "name": "Project 1",
+    "describe": "Describe for Project 1, team EUV"
+  },]
 };
 
-const fetcher = ([url, namelist, describelist]: [
+const fetcher = ([url]: [
   string,
-  string[],
-  string[]
 ]) => {
-  return exampleProject;
+  return exampleProject.projectlist;
   console.log(url);
-  return namelist !== null
-    ? ({
-        status: "success",
-        projectlist: namelist,
-        describelist: describelist,
-      } as ProjectsResType)
-    : null;
+  // return namelist !== null
+  //   ? ({
+  //       status: "success",
+  //       projectlist: namelist,
+  //       describelist: describelist,
+  //     } as ProjectsResType)
+  //   : null;
 };
 const useProjects = () => useSWR([apiConfig.url.project.list()], fetcher);
 
