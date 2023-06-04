@@ -68,7 +68,7 @@ const Projects: React.FC<{ projectID: string }> = ({ projectID }) => {
       file: name,
       directory: "/",
       project: projectID,
-    })
+    });
   };
 
   const HandleDeleteDocument = () => {

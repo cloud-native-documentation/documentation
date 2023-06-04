@@ -23,8 +23,10 @@ async function login(
       return data;
     })
     .catch((err) => {
-      if (err.response.data?.detail) throw new Error(err.response.data.detail);
-      else throw err;
+      if (err.response) {
+        if (err.response.data?.detail)
+          throw new Error(err.response.data.detail);
+      } else throw err;
     });
 }
 

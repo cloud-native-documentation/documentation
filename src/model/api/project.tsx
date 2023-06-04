@@ -1,3 +1,8 @@
+export interface ProjectType {
+  name: string;
+  describe: string;
+}
+
 export interface ProjectsResType {
   status: string;
   projectlist: string[];

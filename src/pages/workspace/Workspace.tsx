@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import Project from "./Project";
 import TextArea from "./TextArea";
 
-
 const Workspace: React.FC = () => {
   const { projectID } = useParams();
 
