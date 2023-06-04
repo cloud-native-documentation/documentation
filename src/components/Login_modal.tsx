@@ -62,11 +62,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
         <div
           style={{ opacity: 0.5, color: "purple" }}
           className="flex justify-end"
-        >
-          <a href="/kkkk">
-            <span>No account? register</span>
-          </a>
-        </div>
+        ></div>
       </Modal.Body>
     </Modal>
   );
