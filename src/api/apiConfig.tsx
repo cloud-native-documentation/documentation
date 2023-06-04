@@ -10,8 +10,9 @@ const apiConfig = {
       view: () => `/document/view`,
       create: () => `/document/create`,
       delete: () => `/document/delete`,
+      commit: () => `/document/commit`,
       version: () => `/document/version`,
-      historyActions: () => `/document/show_history`,
+      history: () => `/document/history`,
     },
     auth: {
       login: () => `/user/login`,
@@ -19,6 +20,7 @@ const apiConfig = {
     },
     project: {
       list: () => `/document/list_project`,
+      create: () => `/document/create_project`,
       delete: () => `/document/delete_project`,
       listUsers: () => `/document/list_project_user`,
     },
