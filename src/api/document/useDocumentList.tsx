@@ -3,11 +3,6 @@ import apiConfig from "../apiConfig";
 import useSWR from "swr";
 import { OldDocumentsRespType } from "../../model/api/document";
 
-const exampleDocumentList: OldDocumentsRespType = {
-  status: "success",
-  documentlist: ["Dir00/", "Dir01/", "Dir02/", "README.md"],
-};
-
 const fetcher = ([url, project, directory]: [
   string,
   string,
@@ -19,7 +14,6 @@ const fetcher = ([url, project, directory]: [
       directory: directory,
     },
   };
-  return exampleDocumentList;
 
   return axios.get(url, config).then((res) => res.data as OldDocumentsRespType);
 };

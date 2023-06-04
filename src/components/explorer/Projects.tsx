@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, FormEvent } from "react";
 import {
   ListGroup,
   Card,
@@ -6,17 +6,14 @@ import {
   Modal,
   TextInput,
   Label,
-  Tabs,
 } from "flowbite-react";
 
 import { HiMinusCircle, HiOutlineExclamationCircle } from "react-icons/hi";
 import { HiFolderPlus } from "react-icons/hi2";
-import { AiFillLock, AiOutlineTeam } from "react-icons/ai";
-import { BsBuildingFill } from "react-icons/bs";
 
 import { useSelectProjectStore } from "../../store/explorer";
 import { useProjects } from "../../api/project";
-import deleteProject from "../../api/project/useDeleteProject";
+import { deleteProject, createProject } from "../../api/project/useProject";
 import { ProjectType } from "../../model/api/project";
 
 const ProjectCard: React.FC<{
@@ -118,34 +115,44 @@ const AddModal: React.FC<{
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
-  const ref = useRef<HTMLInputElement>(null);
-
+  const { mutate } = useProjects();
+  const ref = useRef<HTMLFormElement>(null);
+  function _createProject(e: FormEvent<HTMLFormElement>) {
+    if (!e.currentTarget.checkValidity()) return e.preventDefault();
+    e.preventDefault();
+    const name = e.currentTarget.ProjectName.value;
+    const description = e.currentTarget.ProjectDescription.value;
+    const form = e.currentTarget;
+    createProject(name, description)
+      .then(() => {
+        props.setShow(false);
+        form.reset();
+        mutate();
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.data?.status) alert(err.response.data.status);
+        } else alert("Creation Failed");
+      });
+  }
   return (
     <Modal
       show={props.show}
       size="md"
       onClose={() => {
         props.setShow(false);
-        if (ref.current != null) ref.current.value = "";
       }}
     >
       <Modal.Body>
-        <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
+        <form
+          className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8"
+          onSubmit={_createProject}
+          ref={ref}
+        >
           <div className="py-1"></div>
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
             Create Project
           </h3>
-          <Tabs.Group aria-label="Tabs with icons" style="underline">
-            <Tabs.Item active={true} title="Private" icon={AiFillLock}>
-              Only you can view and edit.
-            </Tabs.Item>
-            <Tabs.Item title="Team" icon={AiOutlineTeam}>
-              Only your team and you can view and edit.
-            </Tabs.Item>
-            <Tabs.Item title="Global" icon={BsBuildingFill}>
-              All of the member in the company can view and edit.
-            </Tabs.Item>
-          </Tabs.Group>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="projectName" value="Name" />
@@ -154,43 +161,34 @@ const AddModal: React.FC<{
               id="ProjectName"
               placeholder="IC N3 Develope"
               required={true}
-              ref={ref}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="projectName" value="Description" />
+            </div>
+            <TextInput
+              id="ProjectDescription"
+              placeholder="IC N3 Developement Project"
+              required={true}
             />
           </div>
 
           <div className="flex w-full justify-start gap-4">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                props.setShow(false);
-
-                if (ref.current != null) {
-                  const projectName: string = ref.current["value"];
-
-                  if (projectName === "") {
-                    alert("Project Name not given!");
-                    return;
-                  }
-
-                  alert("[TODO] New Project: " + projectName);
-                  ref.current.value = "";
-                }
-              }}
-            >
-              Create
-            </Button>
+            <Button type="submit">Create</Button>
             <Button
               color="gray"
               onClick={(e) => {
                 e.stopPropagation();
                 props.setShow(false);
-                if (ref.current != null) ref.current.value = "";
+                ref.current?.reset();
               }}
             >
               Cancel
             </Button>
           </div>
-        </div>
+        </form>
       </Modal.Body>
     </Modal>
   );
@@ -231,7 +229,7 @@ const Projects: React.FC<{
         </div>
       </div>
       <div className="flex w-11/12 flex-col items-center justify-center">
-        <ListGroup className="dark:bg-blue-500">
+        <ListGroup className="w-8/12 dark:bg-blue-500">
           {props.projects.map((project, index) => {
             return (
               <ProjectCard

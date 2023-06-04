@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import { useLogin, useLogout } from "../api/auth";
 import { useAuthStore } from "../store/auth";
 import LoginModal from "./Login_modal";
+import Explorer from "./explorer/Explorer";
 function Dashboard() {
   const {
     trigger: triggerLogin,
@@ -30,6 +31,11 @@ function Dashboard() {
   const HandleLogout = () => {
     triggerLogout();
   };
+  const [showExplorer, setShowExplorer] = useState(false);
+
+  const handleOpenExplorer = () => {
+    setShowExplorer(!showExplorer);
+  };
   useEffect(() => {
     if (errorLogin || errorLogout)
       alert(errorLogin.message || errorLogout.message);
@@ -40,9 +46,15 @@ function Dashboard() {
       <div className="flex items-center justify-between bg-purple-300 p-1">
         <div className="flex items-center">
           {isLoggedIn ? (
-            <button className="bg-purple-300 p-2 text-white hover:bg-purple-500">
-              <VscMenu size={32} />
-            </button>
+            <div>
+              <button
+                onClick={handleOpenExplorer}
+                className="bg-purple-300 p-2 text-white hover:bg-purple-500"
+              >
+                <VscMenu size={32} />
+              </button>
+              {showExplorer && <Explorer />}
+            </div>
           ) : (
             <div></div>
           )}

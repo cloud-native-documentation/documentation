@@ -17,4 +17,15 @@ const deleteProject = (project: string) => {
     });
 };
 
-export default deleteProject;
+const createProject = (project: string, description: string) => {
+  const url = apiConfig.url.project.create();
+  const data = {
+    project: project,
+    description : description,
+  };
+
+  return axios
+    .post(url, data)
+}
+
+export { deleteProject, createProject};

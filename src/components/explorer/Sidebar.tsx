@@ -1,10 +1,8 @@
-import React from "react";
 import { Sidebar as FbSidebar } from "flowbite-react";
-import { HiHome, HiFolderOpen } from "react-icons/hi";
+import React from "react";
+import { HiFolderOpen, HiHome } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import usePath from "../../store/explorer/usePath";
-
-// import { VscSave, VscSaveAs, VscHistory } from "react-icons/vsc";
-
 const Sidebar: React.FC<{ title: string; isFile: boolean }> = () => {
   const clickButton = (e: { currentTarget: { id: string } }) => {
     console.log(e.currentTarget.id, "click");
@@ -23,7 +21,6 @@ const Sidebar: React.FC<{ title: string; isFile: boolean }> = () => {
     );
   };
   const { selectFile } = usePath();
-
   return (
     <div className="w-38 flex flex-col items-center">
       <div className="h-full w-full">
@@ -37,7 +34,9 @@ const Sidebar: React.FC<{ title: string; isFile: boolean }> = () => {
             </FbSidebar.ItemGroup>
             {selectFile !== "" && (
               <FbSidebar.ItemGroup>
-                <SideItem title="Open" icon={HiFolderOpen} />
+                <Link to={`workspace/${selectFile}`}>
+                  <SideItem title="Open" icon={HiFolderOpen} />
+                </Link>
               </FbSidebar.ItemGroup>
             )}
             <FbSidebar.ItemGroup>
