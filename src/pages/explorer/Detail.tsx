@@ -83,6 +83,8 @@ const Detail: React.FC<{
     const [selectName, setSelectName] = useState<string>("");
     const [role, setRole] = useState<string>("edit");
 
+    console.log(editModal);
+
     return (
       <ListGroup.Item
         onClick={() => {
@@ -109,7 +111,7 @@ const Detail: React.FC<{
     );
   };
 
-  const users = ["Person A", "Person B", "Person C"];
+  // const users = ["Person A", "Person B", "Person C"];
 
   return (
     <div className="flex grow flex-col items-center py-3">
