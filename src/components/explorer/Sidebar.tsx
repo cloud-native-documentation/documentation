@@ -34,7 +34,7 @@ const Sidebar: React.FC<{ title: string; isFile: boolean }> = () => {
             </FbSidebar.ItemGroup>
             {selectFile !== "" && (
               <FbSidebar.ItemGroup>
-                <Link to={selectFile}>
+                <Link to={`workspace/${selectFile}`}>
                   <SideItem title="Open" icon={HiFolderOpen} />
                 </Link>
               </FbSidebar.ItemGroup>

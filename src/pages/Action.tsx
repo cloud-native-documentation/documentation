@@ -1,5 +1,8 @@
 import React from "react";
 import { Spinner, Table } from 'flowbite-react';
+
+import moment from "moment";
+
 import useAction from "../api/useAction";
 import { Link } from "react-router-dom";
 
@@ -25,10 +28,10 @@ const Action: React.FC = () => {
           </Table.Head>
           <Table.Body className="divide-y">
             {actionList.data.map((action) => (
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Row key={action.time + action.filename} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {
-                    action.isFile ? <Link to={`/workspace/${action.filename}`}></Link> :
+                    action.isFile ? <Link to={`/workspace/${action.version}`}>{action.filename}</Link> :
                       <>{action.filename}</>
                   }
                 </Table.Cell>
@@ -39,7 +42,7 @@ const Action: React.FC = () => {
                   {action.type}
                 </Table.Cell>
                 <Table.Cell>
-                  {action.time}
+                  {moment(action.time).fromNow()}
                 </Table.Cell>
               </Table.Row>))}
           </Table.Body>

@@ -1,4 +1,7 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import moment from "moment";
+
 import { VscSave } from "react-icons/vsc";
 
 import { useDocument, useCommitDocument, useVersion } from "../../api/document";
@@ -7,6 +10,8 @@ import { useFileStore } from "../../store/workspace";
 import { Button } from "flowbite-react";
 
 const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
+  const location = useLocation();
+
   const version = useVersion(fileID, true);
   const { trigger: triggerDocument, error: errorDocument } = useDocument();
   const {
@@ -25,19 +30,25 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
   };
 
   useEffect(() => {
+    if (location.hash) {
+      triggerDocument({ fileID, version: location.hash.slice(1) });
+    }
+  }, [location.hash, fileID, triggerDocument]);
+
+  useEffect(() => {
     if (errorDocument || errorCommitDocument) {
       alert(errorDocument || errorCommitDocument);
     }
   }, [errorDocument, errorCommitDocument]);
 
   useEffect(() => {
-    if (!isMutatingCommitDocument) {
-    version.mutate();
+    if (!isMutatingCommitDocument && !version.error) {
+      version.mutate();
     }
   }, [version, isMutatingCommitDocument]);
 
   if (version.isLoading || version.error) {
-    return <></>;
+    return <>error</>;
   }
 
   return (
@@ -56,10 +67,13 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
           key={element.version}
           onClick={() => HandleDocument(element.version)}
         >
-          <span>Version: {element.version}</span>
-          <span>Type: {element.type}</span>
-          <span>Username: {element.username}</span>
-          <span>ModifyDate: {element.modifyDate}</span>
+          <div className="flex flex-col">
+            <div className="flex justify-between">
+              <div className="whitespace-nowrap">Ver {element.version}</div>
+              <div className="whitespace-nowrap">({element.type} by {element.user})</div>
+            </div>
+            <div className="whitespace-nowrap">Time: {moment(element.time).fromNow()}</div>
+          </div>
         </Button>
       ))}
     </div>
