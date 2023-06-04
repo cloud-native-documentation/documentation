@@ -16,9 +16,12 @@ const getParams = (fileID: string, version: string | undefined) => {
     return { id: fileID, version: version };
   }
   return { id: fileID };
-}
+};
 
-const getDocument = (_: string, { arg: {fileID, version} }: { arg: DocumentData }) => {
+const getDocument = (
+  _: string,
+  { arg: { fileID, version } }: { arg: DocumentData }
+) => {
   const url = apiConfig.url.document.view();
   const config = { params: getParams(fileID, version) };
 
