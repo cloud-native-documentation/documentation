@@ -12,10 +12,10 @@ import { HiUser } from "react-icons/hi";
 import { BiShow } from "react-icons/bi";
 import usePath from "../../store/explorer/usePath";
 import {
-  useCreateDirectory,
-  useCreateDocument,
-  useDeleteDirectory,
-  useDeleteDocument,
+  createDirectory,
+  createDocument,
+  deleteDirectory,
+  deleteDocument,
   useOldDocument,
 } from "../../api/document";
 
@@ -28,6 +28,38 @@ const DeleteModeal: React.FC<{
 }> = (props) => {
   const { selectFile, selectFileName } = usePath();
   const { selectedProject } = useSelectProjectStore();
+
+  const HandelDelete = () => {
+    if (selectFile === "0") {
+      deleteDirectory(selectFileName, selectedProject)
+        .then((data) => {
+          if (data.status === "success") {
+            props.setShow(false);
+            alert("Delete Success");
+          } else {
+            alert("Delete Failed");
+          }
+        })
+        .catch((err) => {
+          if (err.response.data.status) alert(err.response.data.status);
+          else alert("Delete Failed");
+        });
+    } else {
+      deleteDocument(selectFile)
+        .then((data) => {
+          if (data.status === "success") {
+            props.setShow(false);
+            alert("Delete Success");
+          } else {
+            alert("Delete Failed");
+          }
+        })
+        .catch((err) => {
+          if (err.response.data.status) alert(err.response.data.status);
+          else alert("Delete Failed");
+        });
+    }
+  };
 
   return (
     <Modal
@@ -51,36 +83,7 @@ const DeleteModeal: React.FC<{
               onClick={(e) => {
                 e.stopPropagation();
                 props.setShow(false);
-                if (selectFile === "0") {
-                  useDeleteDirectory(selectFileName, selectedProject)
-                    .then((data) => {
-                      if (data.status === "success") {
-                        props.setShow(false);
-                      } else {
-                        alert("Delete Failed");
-                      }
-                    })
-                    .catch((err) => {
-                      if (err.response.data.status)
-                        alert(err.response.data.status);
-                      else alert("Delete Failed");
-                    });
-                } else {
-                  useDeleteDocument(selectFile)
-                    .then((data) => {
-                      if (data.status === "success") {
-                        props.setShow(false);
-                        alert("Delete Success");
-                      } else {
-                        alert("Delete Failed");
-                      }
-                    })
-                    .catch((err) => {
-                      if (err.response.data.status)
-                        alert(err.response.data.status);
-                      else alert("Delete Failed");
-                    });
-                }
+                HandelDelete();
               }}
             >
               Yes, I'm sure
@@ -116,7 +119,7 @@ const AddModal: React.FC<{
   const handleCreate = (ref: React.RefObject<HTMLInputElement>) => {
     if (ref.current !== null) {
       if (isFile) {
-        useCreateDocument(
+        createDocument(
           ref["current"]["value"],
           props.directory,
           selectedProject,
@@ -132,7 +135,7 @@ const AddModal: React.FC<{
         });
       }
       if (!isFile) {
-        useCreateDirectory(ref["current"]["value"] + "/", selectedProject)
+        createDirectory(ref["current"]["value"] + "/", selectedProject)
           .then((data) => {
             if (data.status === "success") {
               props.setShow(false);

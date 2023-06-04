@@ -3,7 +3,7 @@ import apiConfig from "../apiConfig";
 
 import { CreateDocumentRespType } from "../../model/api/document";
 
-const useCreateDocument = (
+const createDocument = (
   file: string,
   directory: string,
   project: string,
@@ -27,4 +27,4 @@ const useCreateDocument = (
     });
 };
 
-export default useCreateDocument;
+export default createDocument;

@@ -3,7 +3,7 @@ import apiConfig from "../apiConfig";
 
 import { CreateDirectoryRespType } from "../../model/api/document";
 
-const useCreateDirectory = (directory: string, project: string) => {
+const createDirectory = (directory: string, project: string) => {
   const url = apiConfig.url.directory.create();
   const data = {
     directory: directory,
@@ -18,4 +18,4 @@ const useCreateDirectory = (directory: string, project: string) => {
     });
 };
 
-export default useCreateDirectory;
+export default createDirectory;

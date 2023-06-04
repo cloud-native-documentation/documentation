@@ -3,7 +3,7 @@ import apiConfig from "../apiConfig";
 
 import { DeleteDocumentRespType } from "../../model/api/document";
 
-const useDeleteDocument = (id: string) => {
+const deleteDocument = (id: string) => {
   const url = apiConfig.url.document.delete();
   const data = {
     id: id,
@@ -17,4 +17,4 @@ const useDeleteDocument = (id: string) => {
     });
 };
 
-export default useDeleteDocument;
+export default deleteDocument;
