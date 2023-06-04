@@ -1,11 +1,26 @@
 import axios from "axios";
 import apiConfig from "../apiConfig";
 import useSWR from "swr";
-import { OldDocumentsRespType } from "../../model/api/document";
+import {
+  OldDocumentsRespType,
+  OldDocumentType,
+} from "../../model/api/document";
+
+const exampleDocument: OldDocumentType = {
+  name: "File A",
+  isFile: false,
+  id: "0001",
+};
+
+const exampleDirectory: OldDocumentType = {
+  name: "Dir_A",
+  isFile: true,
+  id: "0002",
+};
 
 const exampleDocumentList: OldDocumentsRespType = {
   status: "success",
-  documentlist: ["Dir00/", "Dir01/", "Dir02/", "README.md"],
+  documentlist: [exampleDocument, exampleDirectory, exampleDocument],
 };
 
 const fetcher = ([url, project, directory]: [
