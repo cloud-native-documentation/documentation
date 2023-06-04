@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
 import * as components from "./components";
 import * as pages from "./pages";
-import "./App.css";
-
+import PrivateRoute from "./private_route";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -12,15 +12,27 @@ const router = createBrowserRouter([
         path: "/",
         element: <pages.Home />,
       },
-      {
-        path: "/workspace/:projectID",
-        element: <pages.Workspace />,
-      },
     ],
   },
   {
-    path: "/explorer",
-    element: <pages.Explorer />,
+    path: "/",
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: "/",
+        element: <components.Dashboard />,
+        children: [
+          {
+            path: "/workspace/:projectID",
+            element: <pages.Workspace />,
+          },
+          {
+            path: "/action",
+            element: <pages.Action />,
+          },
+        ],
+      },
+    ],
   },
 ]);
 
