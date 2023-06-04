@@ -15,3 +15,15 @@ export interface CreateDocumentRespType {
 export interface DeleteDocumentRespType {
   status: string;
 }
+
+interface HistoryItemType {
+  version: string;
+  username: string;
+  type: string;
+  modifyDate: string;
+}
+
+export interface HistoryRespType {
+  status: string;
+  actions: HistoryItemType[];
+}

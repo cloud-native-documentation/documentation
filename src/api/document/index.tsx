@@ -3,3 +3,4 @@ export { default as useDocument } from "./useDocument";
 export { default as useCreateDocument } from "./useCreateDocument";
 export { default as useDeleteDocument } from "./useDeleteDocument";
 export { default as useOldDocument } from "./useDocumentList";
+export { default as useVersion } from "./useVersion";

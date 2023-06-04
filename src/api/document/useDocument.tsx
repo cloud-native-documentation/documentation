@@ -6,9 +6,21 @@ import { DocumentRespType } from "../../model/api/document";
 
 import { useFileStore } from "../../store/workspace";
 
-const getDocument = (_: string, { arg: fileID }: { arg: string }) => {
+type DocumentData = {
+  fileID: string;
+  version?: string;
+};
+
+const getParams = (fileID: string, version: string | undefined) => {
+  if (version) {
+    return { id: fileID, version: version };
+  }
+  return { id: fileID };
+}
+
+const getDocument = (_: string, { arg: {fileID, version} }: { arg: DocumentData }) => {
   const url = apiConfig.url.document.view();
-  const config = { params: { id: fileID } };
+  const config = { params: getParams(fileID, version) };
 
   return axios
     .get(url, config)
