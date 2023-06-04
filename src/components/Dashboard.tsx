@@ -39,9 +39,13 @@ function Dashboard() {
     <div>
       <div className="flex items-center justify-between bg-purple-300 p-1">
         <div className="flex items-center">
-          <button className="bg-purple-300 p-2 text-white hover:bg-purple-500">
-            <VscMenu size={32} />
-          </button>
+          {isLoggedIn ? (
+            <button className="bg-purple-300 p-2 text-white hover:bg-purple-500">
+              <VscMenu size={32} />
+            </button>
+          ) : (
+            <div></div>
+          )}
           <h1 className="ml-4 text-4xl font-extrabold text-white">
             Documentation
           </h1>
