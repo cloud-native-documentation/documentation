@@ -18,8 +18,9 @@ const apiConfig = {
       logout: () => `/user/logout`,
     },
     project: {
-      list: () => `${API_URL}/document/list_project`,
-      listUsers: () => `${API_URL}/document/list_project_user`,
+      list: () => `/document/list_project`,
+      delete: () => `/document/delete_project`,
+      listUsers: () => `/document/list_project_user`,
     },
   },
 };
@@ -46,7 +47,9 @@ axios.interceptors.response.use(
     return response;
   },
   async function (error) {
-    if (error.response.status === 401) useAuthStore.getState().clear();
+    if (error.response) {
+      if (error.response.status === 401) useAuthStore.getState().clear();
+    }
     return Promise.reject(error);
   }
 );

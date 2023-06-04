@@ -14,7 +14,7 @@ const useDeleteDocument = (
   const data = {
     file: file,
     directory: directory,
-    project: project
+    project: project,
   };
 
   return axios

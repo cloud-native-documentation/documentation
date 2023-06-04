@@ -1,4 +1,4 @@
-export interface DocumentsRespType {
+export interface OldDocumentsRespType {
   status: string;
   documentlist: string[];
 }
