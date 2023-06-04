@@ -6,6 +6,8 @@ import { BiShow } from "react-icons/bi";
 import { HiUser } from "react-icons/hi";
 import { VscEdit } from "react-icons/vsc";
 
+import useUsers from "../../api/project/useUsers";
+
 const PermissionModal: React.FC<{
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -79,11 +81,9 @@ const Detail: React.FC<{
   // setSelectProject: any;
 }> = (props) => {
   const RoleItem: React.FC<{ name: string; role: string }> = (props) => {
-    const [setEditModel] = useState<boolean>(false);
+    const [editModal, setEditModel] = useState<boolean>(false);
     const [selectName, setSelectName] = useState<string>("");
     const [role, setRole] = useState<string>("edit");
-
-    console.log(editModal);
 
     return (
       <ListGroup.Item
@@ -91,7 +91,7 @@ const Detail: React.FC<{
           console.log("user click", props.name);
           setSelectName(props.name);
           setRole(props.role);
-          setEditModel(true);
+          setEditModel(editModal);
         }}
       >
         <div className="flex w-full justify-between">
@@ -111,7 +111,11 @@ const Detail: React.FC<{
     );
   };
 
-  // const users = ["Person A", "Person B", "Person C"];
+  const users = useUsers();
+  const userlist: { name: string; role: string }[] = [];
+  users.data?.names.forEach((name) => {
+    userlist.push({ name: name, role: "owner" });
+  });
 
   return (
     <div className="flex grow flex-col items-center py-3">
@@ -120,9 +124,9 @@ const Detail: React.FC<{
           <Card className="dark:bg-blue-400">
             <p className="text-xl font-bold">{props.selectProject}</p>
             <ListGroup>
-              <RoleItem name="Person A" role={"owner"} />
-              <RoleItem name="Person B" role={"edit"} />
-              <RoleItem name="Person C" role={"view"} />
+              {userlist.map((data) => {
+                return <RoleItem name={data.name} role={data.role}></RoleItem>;
+              })}
             </ListGroup>
           </Card>
         )}
