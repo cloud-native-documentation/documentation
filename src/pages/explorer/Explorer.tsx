@@ -11,7 +11,6 @@ import { useSelectProjectStore } from "../../store/explorer";
 
 const Explorer: React.FC = () => {
   const { selectedProject } = useSelectProjectStore();
-  // const [selectedProject, setSelectedProject] = useState<string>(" ");
 
   const projects = useProjects();
   const projectData: { title: string; describe: string }[] = [];
@@ -25,17 +24,9 @@ const Explorer: React.FC = () => {
   return (
     <div className="absolute flex h-full w-full divide-x divide-gray-600 bg-blue-100 text-xl">
       <Sidebar title="Home" isFile={true} />
-      <Projects
-        selectProject={selectedProject}
-        // setSelectProject={setSelectedProject}
-        projects={projectData}
-        // setProjects={setProjects}
-      />
+      <Projects selectProject={selectedProject} projects={projectData} />
       <Files selectProject={selectedProject} />
-      <Detail
-        selectProject={selectedProject}
-        // setSelectProject={setSelectedProject}
-      />
+      <Detail selectProject={selectedProject} />
     </div>
   );
 };

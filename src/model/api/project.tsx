@@ -9,3 +9,8 @@ export interface ProjectResType {
   name: string;
   describe: string;
 }
+
+export interface UsersResType {
+  status: string;
+  names: string[];
+}
