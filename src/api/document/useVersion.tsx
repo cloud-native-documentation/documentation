@@ -7,7 +7,7 @@ import { HistoryRespType } from "../../model/api/document";
 const fetcher = ([url, fileID]: [string, string]): Promise<HistoryRespType> => {
   const config = {
     params: {
-      id: fileID,
+      id: fileID
     },
   };
   return axios.get(url, config).then((res) => res.data as HistoryRespType);

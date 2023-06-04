@@ -43,7 +43,6 @@ export interface HistoryRespType {
 }
 
 export interface ActionType {
-  id: number;
   filename: string;
   type: string;
   user: string;

@@ -3,6 +3,7 @@
 import Sidebar from "./Sidebar";
 import Projects from "./Projects";
 import Files from "./Files";
+import Detail from "./Detail";
 
 import { useProjects } from "../../api/project";
 
@@ -18,6 +19,7 @@ const Explorer: React.FC = () => {
   useEffect(() => {
     if (projects.isLoading || projects.error || projects.data === undefined)
       return;
+    console.log(projects.isLoading);
     const new_data: ProjectType[] = [];
     projects.data.forEach((project) => {
       new_data.push(project);
@@ -30,6 +32,7 @@ const Explorer: React.FC = () => {
       <Sidebar title="Home" isFile={true} />
       <Projects selectProject={selectedProject} projects={projectData} />
       <Files selectProject={selectedProject} />
+      <Detail selectProject={selectedProject} />
     </div>
   );
 };

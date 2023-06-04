@@ -63,6 +63,7 @@ const DeleteModeal: React.FC<{
                     .then((data) => {
                       if (data.status === "success") {
                         props.setShow(false);
+                        alert("Delete Success");
                       } else {
                         alert("Delete Failed");
                       }
@@ -280,6 +281,7 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
                 pill={true}
                 onClick={() => {
                   setAddshow(true);
+                  // console.log("add");
                 }}
               >
                 <AddModal

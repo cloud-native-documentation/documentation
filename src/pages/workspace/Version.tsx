@@ -53,7 +53,7 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
 
   return (
     <div className="h-full w-full">
-      <div className="flex h-10 justify-between">
+      <div className="flex justify-between h-10">
         <span>fileID: {fileID}</span>
         <button
           onClick={HandleCommitDocument}

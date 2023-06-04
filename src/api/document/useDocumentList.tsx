@@ -23,6 +23,7 @@ const useOldDocuments = (
   directory: string,
   loadDocuments: boolean
 ) => {
+  console.log(directory, project);
   return useSWR(
     loadDocuments ? [apiConfig.url.document.list(), project, directory] : null,
     fetcher

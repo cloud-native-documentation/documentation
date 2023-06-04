@@ -1,9 +1,4 @@
-import {
-  createBrowserRouter,
-  useNavigate,
-  RouterProvider,
-  Outlet,
-} from "react-router-dom";
+import { createBrowserRouter, useNavigate, RouterProvider, Outlet } from "react-router-dom";
 import "./App.css";
 import * as components from "./components";
 import * as pages from "./pages";
