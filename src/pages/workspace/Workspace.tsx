@@ -10,18 +10,19 @@ const Workspace: React.FC = () => {
   const { trigger: triggerDocument, error: errorDocument } = useDocument();
 
   useEffect(() => {
-    triggerDocument({fileID: fileID || ""});
-  }, [triggerDocument, fileID]);
-
-  useEffect(() => {
     if (errorDocument) {
-      alert(errorDocument.message);
+      return;
     }
-  }, [errorDocument]);
+    triggerDocument({ fileID: fileID || "" });
+  }, [triggerDocument, errorDocument, fileID]);
+
+  if (errorDocument) {
+    return <div>errorDocument</div>;
+  }
 
   return (
     <>
-      <div className="absolute flex w-full my-0">
+      <div className="absolute my-0 flex w-full">
         <div className="w-38 flex flex-col items-center bg-white text-xl">
           <Version fileID={fileID || ""} />
         </div>

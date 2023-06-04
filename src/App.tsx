@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         element: <components.Dashboard />,
         children: [
           {
-            path: "/workspace/:projectID",
+            path: "/workspace/:fileID",
             element: <pages.Workspace />,
           },
           {

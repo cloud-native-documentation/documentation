@@ -31,13 +31,13 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
   }, [errorDocument, errorCommitDocument]);
 
   useEffect(() => {
-    if (!isMutatingCommitDocument) {
-    version.mutate();
+    if (!isMutatingCommitDocument && !version.error) {
+      version.mutate();
     }
   }, [version, isMutatingCommitDocument]);
 
   if (version.isLoading || version.error) {
-    return <></>;
+    return <>error</>;
   }
 
   return (
