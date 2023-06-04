@@ -1,4 +1,4 @@
-const Projects: React.FC = () => {
+const Version: React.FC = () => {
   return (
     <div className="h-full w-full">
       <>[TODO] Version</>
@@ -6,4 +6,4 @@ const Projects: React.FC = () => {
   );
 };
 
-export default Projects;
+export default Version;

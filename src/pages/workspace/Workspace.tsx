@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // import { useParams } from "react-router";
 import { useDocument } from "../../api/document";
 
-import Project from "./Project";
+import Version from "./Version";
 import TextArea from "./TextArea";
 
 const Workspace: React.FC = () => {
@@ -26,7 +26,7 @@ const Workspace: React.FC = () => {
     <>
       <div className="absolute flex h-full w-full">
         <div className="w-38 flex flex-col items-center bg-white text-xl">
-          <Project />
+          <Version />
         </div>
         <div className="items-centertext-xl flex w-full flex-col bg-violet-100">
           <div className="h-full w-full">
