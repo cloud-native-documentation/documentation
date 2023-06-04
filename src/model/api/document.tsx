@@ -18,6 +18,10 @@ export interface CreateDocumentRespType {
   status: string;
 }
 
+export interface CreateDirectoryRespType {
+  status: string;
+}
+
 export interface DeleteDocumentRespType {
   status: string;
 }

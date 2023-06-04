@@ -16,7 +16,7 @@ const apiConfig = {
     },
     directory: {
       delete: () => `/document/delete_directory`,
-      create: () => `/document/create`,
+      create: () => `/document/create_directory`,
     },
     auth: {
       login: () => `/user/login`,

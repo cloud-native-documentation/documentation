@@ -1,6 +1,5 @@
 import { useAuthStore } from "../../store/auth";
 
-// Styles for the component
 const styles = {
   homeContainer: {
     display: "flex",
@@ -12,7 +11,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    gap: "40px", // Adjust the gap between the cards
+    gap: "40px",
   },
 };
 

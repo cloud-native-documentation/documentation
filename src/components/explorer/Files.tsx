@@ -1,12 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  ListGroup,
-  Button,
-  Modal,
-  TextInput,
-  Label,
-  Tabs,
-} from "flowbite-react";
+import { ListGroup, Button, Modal, TextInput, Label } from "flowbite-react";
 import {
   HiFolder,
   HiDocumentAdd,
@@ -15,14 +8,14 @@ import {
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
 import { BsFillBuildingFill } from "react-icons/bs";
-
 import { HiUser } from "react-icons/hi";
 import { BiShow } from "react-icons/bi";
 import usePath from "../../store/explorer/usePath";
 import {
-  useCreateDocument,
-  useDeleteDirectory,
-  useDeleteDocument,
+  createDirectory,
+  createDocument,
+  deleteDirectory,
+  deleteDocument,
   useOldDocument,
 } from "../../api/document";
 
@@ -35,6 +28,38 @@ const DeleteModeal: React.FC<{
 }> = (props) => {
   const { selectFile, selectFileName } = usePath();
   const { selectedProject } = useSelectProjectStore();
+
+  const HandelDelete = () => {
+    if (selectFile === "0") {
+      deleteDirectory(selectFileName, selectedProject)
+        .then((data) => {
+          if (data.status === "success") {
+            props.setShow(false);
+            alert("Delete Success");
+          } else {
+            alert("Delete Failed");
+          }
+        })
+        .catch((err) => {
+          if (err.response.data.status) alert(err.response.data.status);
+          else alert("Delete Failed");
+        });
+    } else {
+      deleteDocument(selectFile)
+        .then((data) => {
+          if (data.status === "success") {
+            props.setShow(false);
+            alert("Delete Success");
+          } else {
+            alert("Delete Failed");
+          }
+        })
+        .catch((err) => {
+          if (err.response.data.status) alert(err.response.data.status);
+          else alert("Delete Failed");
+        });
+    }
+  };
 
   return (
     <Modal
@@ -58,37 +83,7 @@ const DeleteModeal: React.FC<{
               onClick={(e) => {
                 e.stopPropagation();
                 props.setShow(false);
-                if (selectFile === "0") {
-                  useDeleteDirectory(selectFileName, selectedProject)
-                    .then((data) => {
-                      if (data.status === "success") {
-                        props.setShow(false);
-                      } else {
-                        alert("Delete Failed");
-                      }
-                    })
-                    .catch((err) => {
-                      if (err.response.data.status)
-                        alert(err.response.data.status);
-                      else alert("Delete Failed");
-                    });
-                } else {
-                  // File type
-                  useDeleteDocument(selectFile)
-                    .then((data) => {
-                      if (data.status === "success") {
-                        props.setShow(false);
-                        alert("Delete Success");
-                      } else {
-                        alert("Delete Failed");
-                      }
-                    })
-                    .catch((err) => {
-                      if (err.response.data.status)
-                        alert(err.response.data.status);
-                      else alert("Delete Failed");
-                    });
-                }
+                HandelDelete();
               }}
             >
               Yes, I'm sure
@@ -124,8 +119,7 @@ const AddModal: React.FC<{
   const handleCreate = (ref: React.RefObject<HTMLInputElement>) => {
     if (ref.current !== null) {
       if (isFile) {
-        console.log("create file");
-        useCreateDocument(
+        createDocument(
           ref["current"]["value"],
           props.directory,
           selectedProject,
@@ -141,7 +135,19 @@ const AddModal: React.FC<{
         });
       }
       if (!isFile) {
-        console.log("create directory");
+        createDirectory(ref["current"]["value"] + "/", selectedProject)
+          .then((data) => {
+            if (data.status === "success") {
+              props.setShow(false);
+              alert("Create Success");
+            } else {
+              alert("Create Failed");
+            }
+          })
+          .catch((err) => {
+            if (err.response.data.status) alert(err.response.data.status);
+            else alert("Create Failed");
+          });
       }
     } else alert("Must give name");
   };
@@ -164,56 +170,58 @@ const AddModal: React.FC<{
           <Button.Group>
             <Button
               title="Folder"
-              // icon={HiFolder}
               onClick={() => {
-                console.log("set false of is file");
                 setIsFile(false);
               }}
+              color={isFile ? "gray" : "dark"}
             >
+              <HiFolder className="mr-2 h-5 w-5" />
               Add Folder
             </Button>
             <Button
               title="File"
-              // icon={HiDocument}
               onClick={() => {
-                console.log("set true of is file");
                 setIsFile(true);
               }}
+              color={!isFile ? "gray" : "dark"}
             >
+              <HiDocument className="mr-2 h-5 w-5" />
               Add Document
             </Button>
           </Button.Group>
           {isFile && (
             <Button.Group>
               <Button
-                // active={true}
                 title="Public"
-                // icon={BiShow}
                 onClick={() => {
                   setIsPrivate("0");
                   setIsPublic("1");
                 }}
+                color={isPrivate === "0" && isPublic === "1" ? "dark" : "gray"}
               >
+                <BiShow className="mr-2 h-5 w-5" />
                 Public
               </Button>
               <Button
                 title="Private"
-                // icon={HiUser}
                 onClick={() => {
                   setIsPrivate("1");
                   setIsPublic("0");
                 }}
+                color={isPrivate === "1" && isPublic === "0" ? "dark" : "gray"}
               >
+                <HiUser className="mr-2 h-5 w-5" />
                 Private
               </Button>
               <Button
                 title="Department"
-                // icon={BsFillBuildingFill}
                 onClick={() => {
                   setIsPrivate("0");
                   setIsPublic("0");
                 }}
+                color={isPrivate === "0" && isPublic === "0" ? "dark" : "gray"}
               >
+                <BsFillBuildingFill className="mr-2 h-5 w-5" />
                 Department
               </Button>
             </Button.Group>
@@ -330,7 +338,6 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
                   active={file.id == selectFile}
                   icon={HiDocument}
                   onClick={() => {
-                    // props.setSelect(file.id);
                     setSelectFile(file.id);
                     setSelectFileName(file.name);
                   }}
@@ -348,11 +355,15 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
 
   const { path_f, path_s, setPathF, setPathS } = usePath();
 
-  const files1 = useOldDocument(props.selectProject, "/", true);
-  const files2 = useOldDocument(props.selectProject, path_s, true);
+  const files1 = useOldDocument(
+    props.selectProject,
+    "/",
+    props.selectProject !== ""
+  );
+  const files2 = useOldDocument(props.selectProject, path_s, path_s !== "");
 
   return (
-    <div className="m-0 flex h-full w-5/12 space-x-0 divide-x divide-gray-700 p-0">
+    <div className="m-0 flex h-full w-full space-x-0 divide-x divide-gray-700 p-0">
       {files1.data !== undefined && (
         <FilePanel
           show={props.selectProject}

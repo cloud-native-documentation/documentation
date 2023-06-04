@@ -49,8 +49,8 @@ function Dashboard() {
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const location = useLocation();
   useEffect(() => {
-    if (showExplorer)
-      setShowExplorer(false);
+    // if (showExplorer)
+    setShowExplorer(false);
   }, [location]);
   return (
     <div>
@@ -85,7 +85,7 @@ function Dashboard() {
             />
           </div>
         ) : (
-          <div className="flex" style={{ gap: '10px' }}>
+          <div className="flex" style={{ gap: "10px" }}>
             <Link to="/action">
               <button
                 className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "

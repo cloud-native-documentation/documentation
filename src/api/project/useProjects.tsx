@@ -1,8 +1,7 @@
-// import axios from 'axios'
+import axios from "axios";
 import useSWR from "swr";
 import apiConfig from "../apiConfig";
 import { ProjectType } from "../../model/api/project";
-import axios from "axios";
 
 const getProjects = () => {
   const url = apiConfig.url.project.list();

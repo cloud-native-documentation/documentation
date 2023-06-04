@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 const Action: React.FC = () => {
   const actionList = useAction();
-  console.log(actionList.data?.length)
   return (
     <div className="flex h-full items-center justify-center">
       {actionList.isLoading || actionList.isValidating ? (

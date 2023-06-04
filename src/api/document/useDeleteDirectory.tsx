@@ -3,11 +3,11 @@ import apiConfig from "../apiConfig";
 
 import { DeleteDirectoryRespType } from "../../model/api/document";
 
-const useDeleteDirectory = (directory: string, project: string) => {
+const deleteDirectory = (directory: string, project: string) => {
   const url = apiConfig.url.directory.delete();
   const data = {
     directory: directory,
-    project: project
+    project: project,
   };
 
   return axios
@@ -18,4 +18,4 @@ const useDeleteDirectory = (directory: string, project: string) => {
     });
 };
 
-export default useDeleteDirectory;
+export default deleteDirectory;
