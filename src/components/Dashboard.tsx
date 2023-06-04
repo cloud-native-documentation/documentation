@@ -1,43 +1,39 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { VscMenu } from "react-icons/vsc";
-import { Outlet, useLocation } from "react-router-dom";
-import { useIsHistoryStore } from "../store/workspace";
-import { useAuthStore } from "../store/auth";
+import { Outlet } from "react-router-dom";
 import { useLogin, useLogout } from "../api/auth";
+import { useAuthStore } from "../store/auth";
 
 function Dashboard() {
-  const location = useLocation();
-  const { isHistory, setIsHistory } = useIsHistoryStore();
-  const { isLoggedIn, jwt, setJwt, clearJwt } = useAuthStore();
+  const {
+    trigger: triggerLogin,
+    error: errorLogin,
+    isMutating: isMutatingLogin,
+  } = useLogin();
+  const {
+    trigger: triggerLogout,
+    error: errorLogout,
+    isMutating: isMutatingLogout,
+  } = useLogout();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
   const HandleLogin = (e: FormEvent<HTMLFormElement>) => {
-    if (!e.currentTarget.checkValidity()) e.preventDefault();
+    if (!e.currentTarget.checkValidity()) return e.preventDefault();
     e.preventDefault();
-    useLogin(
-      e.currentTarget.account.value,
-      e.currentTarget.password.value,
-      setJwt
-    )
-      .then((data) => {
-        console.log(data);
-        alert("Login success");
-      })
-      .catch((err) => {
-        alert("Login failed");
-        console.log(err);
-      });
+    triggerLogin({
+      username: e.currentTarget.account.value,
+      password: e.currentTarget.password.value,
+    });
   };
 
   const HandleLogout = () => {
-    useLogout(jwt, clearJwt)
-      .then((data) => {
-        console.log(data);
-        alert("Logout success");
-      })
-      .catch((err) => {
-        alert("Logout failed");
-        console.log(err);
-      });
+    triggerLogout();
   };
+
+  useEffect(() => {
+    if (errorLogin || errorLogout)
+      alert(errorLogin.message || errorLogout.message);
+  }, [errorLogin, errorLogout]);
 
   return (
     <div>
@@ -87,6 +83,7 @@ function Dashboard() {
             <button
               className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
               style={{ height: "45px" }}
+              disabled={isMutatingLogin}
             >
               <span className="text-white">Login</span>
             </button>
@@ -96,20 +93,11 @@ function Dashboard() {
             className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
             onClick={HandleLogout}
             style={{ height: "45px" }}
+            disabled={isMutatingLogout}
           >
             <span className="text-white">Logout</span>
           </button>
         )}
-        {location.pathname === "/workspace" &&
-          (isHistory ? (
-            <button onClick={() => setIsHistory(false)}>
-              [change to edit]
-            </button>
-          ) : (
-            <button onClick={() => setIsHistory(true)}>
-              [change to history]
-            </button>
-          ))}
       </div>
       <Outlet />
     </div>

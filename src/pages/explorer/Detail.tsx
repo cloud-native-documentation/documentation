@@ -99,7 +99,7 @@ const Detail: React.FC<{
           {props.role == "view" && <BiShow className="h-5 w-5" />}
         </div>
         <PermissionModal
-          show={editModal}
+          show={false}
           setShow={setEditModel}
           person={selectName}
           role={role}
@@ -108,6 +108,8 @@ const Detail: React.FC<{
       </ListGroup.Item>
     );
   };
+
+  const users = ["Person A", "Person B", "Person C"];
 
   return (
     <div className="flex grow flex-col items-center py-3">

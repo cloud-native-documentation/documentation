@@ -1,19 +1,19 @@
 import axios from "axios";
 import apiConfig from "../apiConfig";
+import useSWRMutation from "swr/mutation";
+import { useAuthStore } from "../../store/auth";
 import { LogoutRespType } from "../../model/api/auth";
 
-const useLogout = (jwt: string | null, clearJwt: () => void) => {
-  return axios
-    .get(apiConfig.url.auth.logout(), {
-      headers: {
-        Authorization: `${jwt}`,
-      },
-    })
+async function logout() {
+  await axios
+    .get(apiConfig.url.auth.logout())
     .then((res) => res.data as LogoutRespType)
     .then((data) => {
-      clearJwt();
+      useAuthStore.getState().clear();
       return data;
     });
-};
+}
+
+const useLogout = () => useSWRMutation(apiConfig.url.auth.logout(), logout);
 
 export default useLogout;
