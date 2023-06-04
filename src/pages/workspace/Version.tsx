@@ -30,19 +30,27 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
     }
   }, [errorDocument, errorCommitDocument]);
 
+  useEffect(() => {
+    if (!isMutatingCommitDocument) {
+    version.mutate();
+    }
+  }, [version, isMutatingCommitDocument]);
+
   if (version.isLoading || version.error) {
     return <></>;
   }
 
   return (
     <div className="h-full w-full">
-      <div>fileID: {fileID}</div>
-      <button
-        onClick={HandleCommitDocument}
-        disabled={isMutatingCommitDocument}
-      >
-        <VscSave size={32} />
-      </button>
+      <div className="flex justify-between h-10">
+        <span>fileID: {fileID}</span>
+        <button
+          onClick={HandleCommitDocument}
+          disabled={isMutatingCommitDocument}
+        >
+          <VscSave size={32} />
+        </button>
+      </div>
       {version.data?.actions?.map((element) => (
         <Button
           key={element.version}
