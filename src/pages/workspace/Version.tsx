@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { VscSave } from "react-icons/vsc";
 
 import { useDocument, useCommitDocument, useVersion } from "../../api/document";
@@ -7,6 +8,8 @@ import { useFileStore } from "../../store/workspace";
 import { Button } from "flowbite-react";
 
 const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
+  const location = useLocation();
+
   const version = useVersion(fileID, true);
   const { trigger: triggerDocument, error: errorDocument } = useDocument();
   const {
@@ -23,6 +26,12 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
   const HandleCommitDocument = () => {
     triggerCommitDocument({ fileID: fileID, content: content || "" });
   };
+
+  useEffect(() => {
+    if (location.hash) {
+      triggerDocument({ fileID, version: location.hash.slice(1) });
+    }
+  }, [location.hash, fileID, triggerDocument]);
 
   useEffect(() => {
     if (errorDocument || errorCommitDocument) {
