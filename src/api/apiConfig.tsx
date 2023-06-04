@@ -14,6 +14,10 @@ const apiConfig = {
       version: () => `/document/version`,
       history: () => `/document/history`,
     },
+    directory: {
+      delete: () => `/document/delete_directory`,
+      create: () => `/document/create`,
+    },
     auth: {
       login: () => `/user/login`,
       logout: () => `/user/logout`,

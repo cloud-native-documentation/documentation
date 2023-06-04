@@ -5,3 +5,4 @@ export { default as useDeleteDocument } from "./useDeleteDocument";
 export { default as useCommitDocument } from "./useCommitDocument";
 export { default as useOldDocument } from "./useDocumentList";
 export { default as useVersion } from "./useVersion";
+export { default as useDeleteDirectory } from "./useDeleteDirectory";

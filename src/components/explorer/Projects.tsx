@@ -131,8 +131,7 @@ const AddModal: React.FC<{
       .catch((err) => {
         if (err.response) {
           if (err.response.data?.status) alert(err.response.data.status);
-        }
-        else alert("Creation Failed");
+        } else alert("Creation Failed");
       });
   }
   return (
@@ -144,7 +143,11 @@ const AddModal: React.FC<{
       }}
     >
       <Modal.Body>
-        <form className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8" onSubmit={_createProject} ref={ref}>
+        <form
+          className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8"
+          onSubmit={_createProject}
+          ref={ref}
+        >
           <div className="py-1"></div>
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
             Create Project
@@ -172,9 +175,7 @@ const AddModal: React.FC<{
           </div>
 
           <div className="flex w-full justify-start gap-4">
-            <Button type="submit">
-              Create
-            </Button>
+            <Button type="submit">Create</Button>
             <Button
               color="gray"
               onClick={(e) => {
@@ -227,7 +228,7 @@ const Projects: React.FC<{
         </div>
       </div>
       <div className="flex w-11/12 flex-col items-center justify-center">
-        <ListGroup className="dark:bg-blue-500">
+        <ListGroup className="w-8/12 dark:bg-blue-500">
           {props.projects.map((project, index) => {
             return (
               <ProjectCard
