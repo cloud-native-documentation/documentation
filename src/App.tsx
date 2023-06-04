@@ -16,12 +16,12 @@ const router = createBrowserRouter([
         path: "/workspace/:projectID",
         element: <pages.Workspace />,
       },
+      {
+        path: "/action",
+        element: <pages.Action />,
+      }
     ],
-  },
-  {
-    path: "/explorer",
-    element: <pages.Explorer />,
-  },
+  }
 ]);
 
 function App() {

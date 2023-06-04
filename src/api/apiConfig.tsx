@@ -11,6 +11,7 @@ const apiConfig = {
       create: () => `/document/create`,
       delete: () => `/document/delete`,
       version: () => `/document/version`,
+      history: () =>`/document/history`,
       historyActions: () => `/document/show_history`,
     },
     auth: {
@@ -19,6 +20,7 @@ const apiConfig = {
     },
     project: {
       list: () => `/document/list_project`,
+      create: () => `/document/create_project`,
       delete: () => `/document/delete_project`,
       listUsers: () => `/document/list_project_user`,
     },
