@@ -16,6 +16,10 @@ export interface DeleteDocumentRespType {
   status: string;
 }
 
+export interface CommitDocumentRespType {
+  status: string;
+}
+
 interface HistoryItemType {
   version: string;
   username: string;

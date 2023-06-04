@@ -5,7 +5,7 @@ import apiConfig from "../apiConfig";
 import { HistoryRespType } from "../../model/api/document";
 
 const fetcher = ([url, fileID]: [string, string]): Promise<HistoryRespType> => {
-  const data = { project: fileID };
+  const data = { id: fileID };
   return axios.post(url, data).then((res) => res.data as HistoryRespType);
 };
 
