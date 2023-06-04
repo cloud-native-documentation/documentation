@@ -6,7 +6,7 @@ function ProjectCard({ imageSrc, altText, description, href }) {
 
   const descriptionStyle = {
     color: "purple",
-    fontSize: "1.2em", // Adjust the font size as needed
+    fontSize: "1.2em",
     alignSelf: "flex-end",
   };
 

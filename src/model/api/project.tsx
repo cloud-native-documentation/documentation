@@ -1,6 +1,6 @@
 export interface ProjectType {
   name: string;
-  describe: string;
+  description: string;
 }
 
 export interface ProjectResType {
