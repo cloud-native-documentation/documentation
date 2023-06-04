@@ -58,12 +58,10 @@ const DeleteModeal: React.FC<{
                 props.setShow(false);
                 if (selectFile === "0") {
                   // directory type
-                  console.log("delete directory");
                   useDeleteDirectory(selectFileName, selectedProject)
                     .then((data) => {
                       if (data.status === "success") {
                         props.setShow(false);
-                        alert("Delete Success");
                       } else {
                         alert("Delete Failed");
                       }
@@ -222,7 +220,6 @@ const Files: React.FC<{ selectProject: string }> = (props) => {
                 pill={true}
                 onClick={() => {
                   setAddshow(true);
-                  console.log("add");
                 }}
               >
                 <AddModal show={addShow} setShow={setAddshow} />

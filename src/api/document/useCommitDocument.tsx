@@ -19,8 +19,6 @@ const commitDocument = (
 ) => {
   const url = apiConfig.url.document.commit();
   const data = { id: fileID, content: content };
-  console.log(url);
-  console.log(data);
   return axios
     .post(url, data)
     .then((res) => res.data as CommitDocumentRespType);

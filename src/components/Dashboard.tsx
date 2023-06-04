@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import { FormEvent, useEffect, useState } from "react";
 import { VscMenu } from "react-icons/vsc";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { useLogin, useLogout } from "../api/auth";
 import { useAuthStore } from "../store/auth";
 import LoginModal from "./Login_modal";
@@ -41,6 +41,11 @@ function Dashboard() {
       alert(errorLogin.message || errorLogout.message);
   }, [errorLogin, errorLogout]);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const location = useLocation();
+  useEffect(() => {
+    if (showExplorer)
+      setShowExplorer(false);
+  }, [location]);
   return (
     <div>
       <div className="flex items-center justify-between bg-purple-300 p-1">
@@ -53,7 +58,6 @@ function Dashboard() {
               >
                 <VscMenu size={32} />
               </button>
-              {showExplorer && <Explorer />}
             </div>
           ) : (
             <div></div>
@@ -75,17 +79,27 @@ function Dashboard() {
             />
           </div>
         ) : (
-          <button
-            className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
-            onClick={HandleLogout}
-            style={{ height: "45px" }}
-            disabled={isMutatingLogout}
-          >
-            <span className="text-white">Logout</span>
-          </button>
+          <div className="flex" style={{ gap: '10px' }}>
+            <Link to="/action">
+              <button
+                className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
+                style={{ marginTop: "auto", marginBottom: "auto" }}
+              >
+                <span className="text-white">Action</span>
+              </button>
+            </Link>
+            <button
+              className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
+              onClick={HandleLogout}
+              style={{ marginTop: "auto", marginBottom: "auto" }}
+              disabled={isMutatingLogout}
+            >
+              <span className="text-white">Logout</span>
+            </button>
+          </div>
         )}
       </div>
-      <Outlet />
+      {showExplorer ? <Explorer /> : <Outlet />}
     </div>
   );
 }

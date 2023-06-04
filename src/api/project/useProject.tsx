@@ -21,11 +21,10 @@ const createProject = (project: string, description: string) => {
   const url = apiConfig.url.project.create();
   const data = {
     project: project,
-    description : description,
+    description: description,
   };
 
-  return axios
-    .post(url, data)
-}
+  return axios.post(url, data);
+};
 
-export { deleteProject, createProject};
+export { deleteProject, createProject };
