@@ -22,6 +22,22 @@ export interface DeleteDocumentRespType {
   status: string;
 }
 
+export interface CommitDocumentRespType {
+  status: string;
+}
+
+interface HistoryItemType {
+  version: string;
+  username: string;
+  type: string;
+  modifyDate: string;
+}
+
+export interface HistoryRespType {
+  status: string;
+  actions: HistoryItemType[];
+}
+
 export interface ActionType {
   filename: string;
   type: string;

@@ -7,29 +7,26 @@ import { DocumentRespType } from "../../model/api/document";
 import { useFileStore } from "../../store/workspace";
 
 type DocumentData = {
-  file: string;
-  directory: string;
-  project: string;
+  fileID: string;
+  version?: string;
 };
 
-const getDocument = (
-  _: string,
-  { arg: { file, directory, project } }: { arg: DocumentData }
-) => {
+const getParams = (fileID: string, version: string | undefined) => {
+  if (version) {
+    return { id: fileID, version: version };
+  }
+  return { id: fileID };
+}
+
+const getDocument = (_: string, { arg: {fileID, version} }: { arg: DocumentData }) => {
   const url = apiConfig.url.document.view();
-  const config = {
-    params: {
-      file: file,
-      directory: directory,
-      project: project,
-    },
-  };
+  const config = { params: getParams(fileID, version) };
 
   return axios
     .get(url, config)
     .then((res) => res.data as DocumentRespType)
     .then((data) => {
-      useFileStore.getState().selectFile(file);
+      useFileStore.getState().selectFile(fileID);
       useFileStore.getState().setContent(data.content);
     });
 };

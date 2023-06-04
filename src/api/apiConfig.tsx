@@ -10,9 +10,9 @@ const apiConfig = {
       view: () => `/document/view`,
       create: () => `/document/create`,
       delete: () => `/document/delete`,
+      commit: () => `/document/commit`,
       version: () => `/document/version`,
-      history: () =>`/document/history`,
-      historyActions: () => `/document/show_history`,
+      history: () => `/document/history`,
     },
     auth: {
       login: () => `/user/login`,
