@@ -122,10 +122,11 @@ const AddModal: React.FC<{
     e.preventDefault();
     const name = e.currentTarget.ProjectName.value;
     const description = e.currentTarget.ProjectDescription.value;
+    const form = e.currentTarget;
     createProject(name, description)
       .then(() => {
         props.setShow(false);
-        e.currentTarget.reset();
+        form.reset();
         mutate();
       })
       .catch((err) => {
