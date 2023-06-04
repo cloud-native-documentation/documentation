@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { ListGroup, Card, Modal, Button } from "flowbite-react";
+import { Button, Card, ListGroup, Modal } from "flowbite-react";
 
+import { BiShow } from "react-icons/bi";
 import { HiUser } from "react-icons/hi";
 import { VscEdit } from "react-icons/vsc";
-import { BiShow } from "react-icons/bi";
 
 const PermissionModal: React.FC<{
   show: boolean;
@@ -79,7 +79,7 @@ const Detail: React.FC<{
   setSelectProject: React.Dispatch<React.SetStateAction<string>>;
 }> = (props) => {
   const RoleItem: React.FC<{ name: string; role: string }> = (props) => {
-    const [editModal, setEditModel] = useState<boolean>(false);
+    const [setEditModel] = useState<boolean>(false);
     const [selectName, setSelectName] = useState<string>("");
     const [role, setRole] = useState<string>("edit");
 
