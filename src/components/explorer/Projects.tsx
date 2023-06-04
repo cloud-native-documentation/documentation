@@ -58,7 +58,6 @@ const DeleteModal: React.FC<{
           props.setShow(false);
           clearSelectedProject();
           mutate();
-          alert("Delete Success");
         } else {
           alert("Delete Failed");
         }
@@ -132,7 +131,8 @@ const AddModal: React.FC<{
       .catch((err) => {
         if (err.response) {
           if (err.response.data?.status) alert(err.response.data.status);
-        } else alert("Creation Failed");
+        }
+        else alert("Creation Failed");
       });
   }
   return (
@@ -202,7 +202,7 @@ const Projects: React.FC<{
   const [addShow, setAddshow] = useState<boolean>(false);
 
   return (
-    <div className="flex w-3/12 flex-col items-center py-3">
+    <div className="flex w-6/12 flex-col items-center py-3">
       <p>Project</p>
       <div className="flex flex-wrap items-center gap-2 py-3">
         <div>
@@ -228,8 +228,8 @@ const Projects: React.FC<{
           </Button>
         </div>
       </div>
-      <div className="flex w-11/12 flex-col items-center justify-center">
-        <ListGroup className="w-8/12 dark:bg-blue-500">
+      <div className="w-11/12 flex-col items-center justify-center" style={{overflow: 'auto'}}>
+        <ListGroup className="dark:bg-blue-500">
           {props.projects.map((project, index) => {
             return (
               <ProjectCard
