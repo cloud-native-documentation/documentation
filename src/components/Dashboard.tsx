@@ -6,6 +6,7 @@ import { useLogin, useLogout } from "../api/auth";
 import { useAuthStore } from "../store/auth";
 import LoginModal from "./Login_modal";
 import Explorer from "./explorer/Explorer";
+import useMe from "../api/auth/useMe";
 function Dashboard() {
   const {
     trigger: triggerLogin,
@@ -17,6 +18,7 @@ function Dashboard() {
     error: errorLogout,
     isMutating: isMutatingLogout,
   } = useLogout();
+  const { data: user, isLoading: userLoading, error: userError } = useMe();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const HandleLogin = (e: FormEvent<HTMLFormElement>) => {
@@ -53,7 +55,7 @@ function Dashboard() {
     setShowExplorer(false);
   }, [location]);
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between bg-purple-300 p-1">
         <div className="flex items-center">
           {isLoggedIn ? (
@@ -86,6 +88,16 @@ function Dashboard() {
           </div>
         ) : (
           <div className="flex" style={{ gap: "10px" }}>
+            {!userLoading && !userError && user && (
+              <button
+                className="mt-4 rounded-lg bg-gray-500 p-2 hover:bg-gray-600 "
+                style={{ marginTop: "auto", marginBottom: "auto" }}
+              >
+                <span className="text-white">
+                  {user.username} ({user.department})
+                </span>
+              </button>
+            )}
             <Link to="/action">
               <button
                 className="mt-4 rounded-lg bg-blue-500 p-2 hover:bg-blue-600 "
@@ -106,7 +118,7 @@ function Dashboard() {
         )}
       </div>
       {showExplorer ? <Explorer /> : <Outlet />}
-    </div>
+    </>
   );
 }
 export default Dashboard;

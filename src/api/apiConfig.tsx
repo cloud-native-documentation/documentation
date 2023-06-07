@@ -21,6 +21,7 @@ const apiConfig = {
     auth: {
       login: () => `/user/login`,
       logout: () => `/user/logout`,
+      me: () => `/user/me`,
     },
     project: {
       list: () => `/document/list_project`,

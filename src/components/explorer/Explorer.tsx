@@ -24,7 +24,7 @@ const Explorer: React.FC = () => {
   }, [projects.isLoading, projects.error, projects.data]);
 
   return (
-    <div className="absolute flex h-full w-full divide-x divide-gray-600 bg-blue-100 text-xl">
+    <div className="flex w-full grow divide-x divide-gray-600 bg-blue-100 text-xl">
       <Sidebar title="Home" isFile={true} />
       <Projects selectProject={selectedProject} projects={projectData} />
       <Files selectProject={selectedProject} />

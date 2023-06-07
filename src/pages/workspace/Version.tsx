@@ -7,7 +7,7 @@ import { VscSave } from "react-icons/vsc";
 import { useDocument, useCommitDocument, useVersion } from "../../api/document";
 
 import { useFileStore } from "../../store/workspace";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 
 const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
   const location = useLocation();
@@ -46,8 +46,8 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
       version.mutate();
     }
   }, [version, isMutatingCommitDocument]);
-
-  if (version.isLoading || version.error) {
+  if (version.isLoading) return <Spinner />;
+  else if (version.error) {
     return <>error</>;
   }
 
@@ -70,9 +70,13 @@ const Version: React.FC<{ fileID: string }> = ({ fileID }) => {
           <div className="flex flex-col">
             <div className="flex justify-between">
               <div className="whitespace-nowrap">Ver {element.version}</div>
-              <div className="whitespace-nowrap">({element.type} by {element.user})</div>
+              <div className="whitespace-nowrap">
+                ({element.type} by {element.user})
+              </div>
             </div>
-            <div className="whitespace-nowrap">Time: {moment(element.time).fromNow()}</div>
+            <div className="whitespace-nowrap">
+              Time: {moment(element.time).fromNow()}
+            </div>
           </div>
         </Button>
       ))}

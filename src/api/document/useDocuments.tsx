@@ -4,11 +4,7 @@ import apiConfig from "../apiConfig";
 
 import { useProjectStore } from "../../store/workspace";
 
-const fetcher = ([url, project, directory]: [
-  string,
-  string,
-  string
-]) => {
+const fetcher = ([url, project, directory]: [string, string, string]) => {
   const config = {
     params: {
       project: project,

@@ -26,7 +26,7 @@ const Workspace: React.FC = () => {
 
   return (
     <>
-      <div className="absolute my-0 flex w-full">
+      <div className="my-0 flex w-full">
         <div className="w-38 flex flex-col items-center bg-white text-xl">
           <Version fileID={fileID || ""} />
         </div>

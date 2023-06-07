@@ -1,8 +1,8 @@
 import {
   createBrowserRouter,
-  useNavigate,
   RouterProvider,
   Outlet,
+  Navigate,
 } from "react-router-dom";
 import "./App.css";
 import * as components from "./components";
@@ -11,11 +11,9 @@ import { useAuthStore } from "./store/auth";
 
 function PrivateRoute() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const navigate = useNavigate();
 
   if (!isLoggedIn) {
-    navigate("/"); // Redirect to the home page or login page
-    return null; // Or render a loading state, error message, etc.
+    return <Navigate to='/' />;
   }
 
   return <Outlet />;
